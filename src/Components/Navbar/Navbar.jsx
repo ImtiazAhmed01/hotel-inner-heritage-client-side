@@ -260,27 +260,22 @@ const Navbar = () => {
                         <div className="flex gap-4">
                             <NavLink
                                 to="/register"
-                                className="btn"
-                                style={{
-                                    backgroundColor: "#BC6C25",
-                                    color: "#3F0113",
-                                    border: "none",
-                                }}
+                                className={({ isActive }) =>
+                                    `btn ${isActive ? "bg-[#BC6C25] text-[#3F0113]" : "btn-outline border-[#BC6C25] text-[#BC6C25]"}`
+                                }
                             >
                                 Sign Up
                             </NavLink>
                             <NavLink
                                 to="/login"
-                                className="btn"
-                                style={{
-                                    backgroundColor: "#BC6C25",
-                                    color: "#3F0113",
-                                    border: "none",
-                                }}
+                                className={({ isActive }) =>
+                                    `btn ${isActive ? "bg-[#BC6C25] text-[#3F0113]" : "btn-outline border-[#BC6C25] text-[#BC6C25]"}`
+                                }
                             >
                                 Log In
                             </NavLink>
                         </div>
+
                     )}
                 </div>
             </div>

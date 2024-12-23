@@ -5,9 +5,9 @@ import slider2Image from "../../../src/assets/images/homeImg/;kgds; (7).jpg";
 import slider3Image from "../../../src/assets/images/homeImg/sfgdfg (5).jpg";
 import slider4Image from "../../../src/assets/images/homeImg/;kgds; (3).jpg";
 import HotelMap from './HotelMap';
-import FeaturedRooms from './FeaturedRooms';
+// import FeaturedRooms from './FeaturedRooms';
 import SpecialOffers from './SpecialOffers';
-import Testimonials from './Testimonials';
+import LuxuryExpeiences from './LuxuryExperiences';
 
 const Home = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -117,7 +117,7 @@ const Home = () => {
             </div>
             {/* Featured rooms */}
             <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
-                <Testimonials></Testimonials>
+                <LuxuryExpeiences></LuxuryExpeiences>
             </div>
             {/* Overall Customer testimonial and Special Offers */}
             <div >

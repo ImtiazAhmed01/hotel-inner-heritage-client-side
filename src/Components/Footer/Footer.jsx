@@ -49,7 +49,7 @@ const Footer = () => {
                 </div>
             </nav>
             <aside>
-                <p>Copyright © {new Date().getFullYear()} - All right reserved by Multi Visa Navigator company Ltd</p>
+                <p>Copyright © {new Date().getFullYear()} - All right reserved by Hotel Inner Heritage company Ltd</p>
             </aside>
         </footer>
     );

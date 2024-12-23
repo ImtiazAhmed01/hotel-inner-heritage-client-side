@@ -192,7 +192,7 @@ const Navbar = () => {
             <div className="navbar " style={{ backgroundColor: "#e5e4e2" }}>
                 <div className="navbar-start">
                     <div className="dropdown">
-                        <button tabIndex={0} className="btn btn-ghost lg:hidden text-[#FEFAE0]">
+                        <button tabIndex={0} className="btn btn-ghost lg:hidden text-[#3F0113]">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-5 w-5"

@@ -28,7 +28,7 @@ const FeaturedRooms = () => {
                         <p className="text-green-600 font-bold">Price: ${room.price} / night</p>
                         <p className="text-yellow-500">Rating: ⭐ {room.rating}</p>
                         <button
-                            className="mt-3 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                            className="bg-[#DDA15E] text-[#3F0113] mt-4 px-6 py-2 btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
                             onClick={() => handleBookNow(room._id)}
                         >
                             Book Now

@@ -8,7 +8,7 @@ const SpecialOffers = () => {
     ];
 
     return (
-        <section className="special-offers py-12" style={{ backgroundColor: "#FEFAE0" }}>
+        <section className="special-offers py-12 px-8" style={{ backgroundColor: "#FEFAE0" }}>
             <div className="text-center mb-10">
                 <motion.h2
                     initial={{ opacity: 0 }}

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 const experiencesData = [
     {
@@ -18,12 +18,12 @@ const experiencesData = [
     },
 ];
 
-
-
-
 const LuxuryExperiences = () => {
     return (
-        <section className="luxury-experiences py-10" style={{ backgroundColor: "#FEFAE0" }}>
+        <section
+            className="luxury-experiences py-10 px-4 sm:px-8 lg:px-16"
+            style={{ backgroundColor: "#FEFAE0" }}
+        >
             <div className="text-center mb-8">
                 <motion.h2
                     initial={{ opacity: 0 }}
@@ -43,21 +43,26 @@ const LuxuryExperiences = () => {
                     Elevate your stay with our premium experiences.
                 </motion.p>
             </div>
-            <div className="flex justify-center space-x-8">
+            <div
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
                 {experiencesData.map((experience, index) => (
                     <motion.div
                         key={index}
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.5 + index * 0.2, duration: 1 }}
-                        className="bg-white p-6 rounded-lg shadow-lg w-72"
+                        className="bg-white p-6 rounded-lg shadow-lg"
                     >
                         <img
                             src={experience.image}
                             alt={experience.title}
                             className="w-full h-40 object-cover rounded-t-lg"
                         />
-                        <h3 className="text-xl font-semibold mt-4" style={{ color: "#3F0113" }}>
+                        <h3
+                            className="text-xl font-semibold mt-4"
+                            style={{ color: "#3F0113" }}
+                        >
                             {experience.title}
                         </h3>
                         <p className="text-[#333533] mt-2">{experience.description}</p>

@@ -8,6 +8,7 @@ import HotelMap from './HotelMap';
 // import FeaturedRooms from './FeaturedRooms';
 import SpecialOffers from './SpecialOffers';
 import LuxuryExpeiences from './LuxuryExperiences';
+import FeaturedRooms from './FeaturedRooms';
 
 const Home = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -115,17 +116,21 @@ const Home = () => {
                     <HotelMap />
                 </div>
             </div>
+
+
             {/* Featured rooms */}
+            <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+                <FeaturedRooms></FeaturedRooms>
+            </div>
+
+
+            {/* Other sections of the Home page */}
+
             <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
                 <LuxuryExpeiences></LuxuryExpeiences>
             </div>
-            {/* Overall Customer testimonial and Special Offers */}
             <div >
-                {/* Other sections of the Home page */}
-
                 <SpecialOffers />
-
-                {/* More content */}
             </div>
 
         </div>

@@ -1,42 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../Provider/authProvider'; // Assuming AuthContext is used for authentication
 import { format } from 'date-fns';
 import { Modal, Button } from 'daisyui';
 
 const RoomDetail = () => {
     const { id } = useParams(); // Get room id from URL parameters
+    const { user } = useContext(AuthContext); // Get user data from context
     const [room, setRoom] = useState(null);
     const [reviews, setReviews] = useState([]); // State to store reviews
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const navigate = useNavigate();
 
-    // Fetch room details
+    // Fetch room details and reviews
     useEffect(() => {
         fetch(`http://localhost:5000/rooms/${id}`)
             .then(res => res.json())
             .then(data => setRoom(data))
             .catch(error => console.error("Error fetching room details:", error));
 
-        // Fetch reviews for the specific room (using roomId)
-        fetch(`http://localhost:5000/rooms/${parseInt(id, 10)}/reviews`)
+        fetch(`http://localhost:5000/rooms/${id}/reviews`)
             .then(res => res.json())
             .then(data => setReviews(data))
             .catch(error => console.error("Error fetching reviews:", error));
-        fetch(`http://localhost:5000/rooms/${id}/reviews`)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`Failed to fetch reviews: ${res.statusText}`);
-                }
-                return res.json();
-            })
-            .then(data => {
-                console.log("Fetched reviews:", data); // Debugging log
-                setReviews(data);
-            })
-            .catch(error => console.error("Error fetching reviews:", error));
-    }, [id]); // Dependencies array ensures it runs when the `id` changes
+    }, [id]);
 
+    // Handle booking logic
     const handleBooking = () => {
+        if (!user) {
+            // Redirect to login page if user is not logged in
+            alert("You need to be logged in to book a room.");
+            navigate("/login");
+            return;
+        }
+
         fetch(`http://localhost:5000/rooms/${id}/book`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -45,7 +43,7 @@ const RoomDetail = () => {
             .then(data => {
                 console.log(data.message);
                 setRoom(prev => ({ ...prev, availability: false }));
-                setModalOpen(false);
+                setModalOpen(false); // Close modal after booking
             })
             .catch(error => console.error("Error booking room:", error));
     };
@@ -62,25 +60,43 @@ const RoomDetail = () => {
             <p>Room ID: {room.id}</p>
             <p>{room.availability ? "Available" : "Unavailable"}</p>
 
-            <h2 className="text-xl font-semibold mt-6">Reviews:</h2>
-            {reviews.length > 0 ? (
-                <ul>
-                    {reviews.map((review, index) => (
-                        <li key={index} className="border p-2 my-2">
-                            <strong>{review.user}</strong> (⭐ {review.rating}): {review.comment}
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No reviews available for this room.</p>
+            {/* Reviews section */}
+            {user && (
+                <div className="reviews">
+                    <h2 className="text-xl font-semibold mt-6">Reviews:</h2>
+                    {reviews.length > 0 ? (
+                        <ul>
+                            {reviews.map((review, index) => (
+                                <li key={index} className="border p-2 my-2">
+                                    <strong>{review.user}</strong> (⭐ {review.rating}): {review.comment}
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No reviews available for this room.</p>
+                    )}
+                </div>
             )}
 
-            {room.availability && (
-                <button onClick={() => setModalOpen(true)} className="bg-[#DDA15E] text-[#3F0113] mt-4 px-6 py-2 btn hover:bg-[#3F0113] hover:text-[#BC6C25]">
+            {/* Book Now button for logged-in users */}
+            {room.availability && user && (
+                <button
+                    onClick={() => setModalOpen(true)} // Open modal on button click
+                    className="bg-[#DDA15E] text-[#3F0113] mt-4 px-6 py-2 btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
+                >
                     Book Now
                 </button>
             )}
+            {room.availability && !user && (
+                <button
+                    onClick={() => navigate("/login")}
+                    className="bg-[#DDA15E] text-[#3F0113] mt-4 px-6 py-2 btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
+                >
+                    Please Log In to Book
+                </button>
+            )}
 
+            {/* Modal for booking */}
             {isModalOpen && (
                 <Modal open={isModalOpen} onClickBackdrop={() => setModalOpen(false)}>
                     <div className="p-6">

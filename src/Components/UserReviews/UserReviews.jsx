@@ -13,7 +13,7 @@ const UserReviews = () => {
     }, []);
 
     return (
-        <div className="p-6 bg-[#DDA15E]">
+        <div className="p-6">
             <h2 className="text-3xl font-bold text-center mb-6">User Reviews</h2>
             <div className="carousel w-full space-x-10">
                 {reviews.map((review) => (
@@ -21,7 +21,7 @@ const UserReviews = () => {
 
                         <div className="card bg-base-200 shadow-xl p-6">
                             <img className="w-24 h-24" src={img} alt="" />
-                            <p className="text-lg italic">{review.comment}</p>
+                            <p className="text-lg text-black pt-2 italic">{review.comment}</p>
                             <div className="mt-4">
                                 <strong className="text-[#3F0113]">{review.user}</strong>
                                 <span className="block text-sm text-gray-500">

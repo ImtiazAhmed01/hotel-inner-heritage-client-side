@@ -124,7 +124,7 @@ const Home = () => {
                 <FeaturedRooms></FeaturedRooms>
             </div>
 
-            <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+            <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-[#DDA15E] text-black"}`}>
                 <UserReviews></UserReviews>
             </div>
 

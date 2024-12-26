@@ -20,7 +20,7 @@ const Home = () => {
     };
 
     const handleRedirect = () => {
-        navigate('/rooms'); // Redirect to the Rooms page
+        navigate('/roomspage'); // Redirect to the Rooms page
     };
 
     return (
@@ -44,7 +44,7 @@ const Home = () => {
                             <p>Experience comfort and elegance with our carefully curated rooms designed to make you feel at home.</p>
                             <button
                                 onClick={handleRedirect}
-                                className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+                                className="mt-4 px-6 py-2 bg-[#DDA15E] text-[#3F0113] btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
                             >
                                 Go to Rooms
                             </button>
@@ -62,7 +62,7 @@ const Home = () => {
                             <p>Let our dedicated staff provide personalized services that create unforgettable memories.</p>
                             <button
                                 onClick={handleRedirect}
-                                className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+                                className="mt-4 px-6 py-2 bg-[#DDA15E] text-[#3F0113] btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
                             >
                                 Go to Rooms
                             </button>
@@ -80,7 +80,7 @@ const Home = () => {
                             <p>Relax in our premium accommodations featuring modern amenities and breathtaking views.</p>
                             <button
                                 onClick={handleRedirect}
-                                className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+                                className="mt-4 px-6 py-2 bg-[#DDA15E] text-[#3F0113] btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
                             >
                                 Go to Rooms
                             </button>
@@ -98,7 +98,7 @@ const Home = () => {
                             <p>Find the perfect room for your next getaway, tailored to fit your needs and style.</p>
                             <button
                                 onClick={handleRedirect}
-                                className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+                                className="mt-4 px-6 py-2 bg-[#DDA15E] text-[#3F0113] btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
                             >
                                 Go to Rooms
                             </button>

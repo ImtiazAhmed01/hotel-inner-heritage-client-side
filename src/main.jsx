@@ -11,6 +11,7 @@ import Login from './Components/Login/Login'
 import Register from './Components/Register/Register'
 import RoomDetail from './Components/Home/RoomDetail'
 import RoomsPage from './Components/RoomsPage/RoomsPage'
+import MyBookings from './Components/MyBookings/MyBookings'
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "roomspage",
         element: <RoomsPage></RoomsPage>
+      },
+      {
+        path: "mybookings",
+        element: <MyBookings></MyBookings>
       }
     ]
   },

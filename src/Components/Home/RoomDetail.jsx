@@ -55,7 +55,8 @@ const RoomDetail = () => {
                 checkInDate: checkInDate.toISOString().split('T')[0],
                 checkOutDate: checkOutDate.toISOString().split('T')[0],
                 bookingDate: bookingDate.toISOString().split('T')[0],
-                userId: user.id,
+                userId: user.id,  // Ensure the user object has the 'id' property
+                userEmail: user.email,  // Assuming 'user.email' holds the user's email
             }),
         })
             .then((res) => res.json())
@@ -66,6 +67,7 @@ const RoomDetail = () => {
             })
             .catch((error) => console.error('Error booking room:', error));
     };
+
 
     if (!room) return <p>Loading...</p>;
 

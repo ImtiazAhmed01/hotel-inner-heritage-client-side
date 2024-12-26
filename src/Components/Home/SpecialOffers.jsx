@@ -15,7 +15,7 @@ const SpecialOffers = () => {
     useEffect(() => {
         // Automatically show a specific offer in the popup on page load
         setSelectedOffer({
-            title: "Our Honeymoon Suit",
+            title: "Our Premium Honeymoon Suit",
             description: "Book now at 35% off",
             imageUrl: { hsimg },
         });

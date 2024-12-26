@@ -1,31 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Provider/authProvider';
-import { format } from 'date-fns';
-import { Modal, Button } from 'daisyui';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 const RoomDetail = () => {
     const { id } = useParams();
     const { user } = useContext(AuthContext);
     const [room, setRoom] = useState(null);
     const [reviews, setReviews] = useState([]);
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [checkInDate, setCheckInDate] = useState(null);
+    const [checkOutDate, setCheckOutDate] = useState(null);
+    const [isCheckInOpen, setCheckInOpen] = useState(false);
+    const [isCheckOutOpen, setCheckOutOpen] = useState(false);
     const navigate = useNavigate();
-
 
     useEffect(() => {
         fetch(`http://localhost:5000/rooms/${id}`)
             .then(res => res.json())
             .then(data => setRoom(data))
             .catch(error => console.error("Error fetching room details:", error));
-
-        // fetch(`http://localhost:5000/rooms/${id}/reviews`)
-        //     .then(res => res.json())
-        //     .then(data => setReviews(data))
-        //     .catch(error => console.error("Error fetching reviews:", error));
     }, [id]);
-
 
     const handleBooking = () => {
         if (!user) {
@@ -34,15 +29,30 @@ const RoomDetail = () => {
             return;
         }
 
+        if (!room.availability) {
+            alert("This room is currently unavailable.");
+            return;
+        }
+
+        if (!checkInDate || !checkOutDate) {
+            alert("Please select both check-in and check-out dates.");
+            return;
+        }
+
         fetch(`http://localhost:5000/rooms/${id}/book`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                checkInDate: checkInDate.toISOString().split('T')[0],
+                checkOutDate: checkOutDate.toISOString().split('T')[0],
+                userId: user.id,
+            }),
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data.message);
+                alert(data.message || "Room booked successfully!");
                 setRoom(prev => ({ ...prev, availability: false }));
-                setModalOpen(false);
+                document.getElementById('my_modal_5').close();
             })
             .catch(error => console.error("Error booking room:", error));
     };
@@ -58,7 +68,6 @@ const RoomDetail = () => {
             <p>Rating: ⭐ {room.rating}</p>
             <p>Room ID: {room.id}</p>
             <p>{room.availability ? "Available" : "Unavailable"}</p>
-
 
             {user && (
                 <div className="reviews">
@@ -77,56 +86,74 @@ const RoomDetail = () => {
                 </div>
             )}
 
-            {/* Book Now button for logged-in users */}
-            {room.availability && user && (
+            {room.availability && (
                 <button
-                    onClick={() => document.getElementById('my_modal_5').showModal()} //  modal button 
+                    onClick={() => document.getElementById('my_modal_5').showModal()}
                     className="bg-[#DDA15E] text-[#3F0113] mt-4 px-6 py-2 btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
                 >
                     Book Now
                 </button>
             )}
-            {room.availability && !user && (
-                <button
-                    onClick={() => navigate("/login")}
-                    className="bg-[#DDA15E] text-[#3F0113] mt-4 px-6 py-2 btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
-                >
-                    Please Log In to Book
-                </button>
-            )}
+            {!room.availability && <p>This room is currently unavailable for booking.</p>}
 
-            {/* Modal for booking */}
-            {/* {isModalOpen && ( */}
-            {/* <Modal open={isModalOpen} onClickBackdrop={() => setModalOpen(false)}>
-                <h1>Hello</h1>
-                {/* <div className="p-6">
-                        <h2 className="text-2xl font-bold">Booking Summary</h2>
-                        <p><strong>Room:</strong> {room.name}</p>
-                        <p><strong>Price:</strong> ${room.price}</p>
-                        <p><strong>Date:</strong> {format(selectedDate, 'yyyy-MM-dd')}</p>
-                        <input
-                            type="date"
-                            className="mt-4 border p-2"
-                            value={format(selectedDate, 'yyyy-MM-dd')}
-                            onChange={e => setSelectedDate(new Date(e.target.value))}
-                        />
-                        <div className="mt-6 flex justify-end gap-4">
-                            <Button color="secondary" onClick={() => setModalOpen(false)}>
-                                Cancel
-                            </Button>
-                            <Button color="primary" onClick={handleBooking}>
-                                Confirm Booking
-                            </Button>
-                        </div>
-                    </div> */}
-            {/* </Modal> */}
             <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg">Hello!</h3>
-                    <p className="py-4">Press ESC key or click the button below to close</p>
+                    <img src={room.image} alt={room.name} className="w-full h-64 object-contain" />
+                    <h1 className="text-3xl font-bold">{room.name}</h1>
+                    <p>{room.description}</p>
+                    <p>Price: ${room.price} / night</p>
+
+                    <div className="mt-4">
+                        <h3 className="font-semibold">Select Booking Dates:</h3>
+                        <div className="mb-4">
+                            <label className="block font-semibold">Check-In:</label>
+                            <input
+                                type="text"
+                                value={checkInDate ? checkInDate.toISOString().split('T')[0] : ''}
+                                onClick={() => setCheckInOpen(true)}
+                                readOnly
+                                className="border px-3 py-2 w-full cursor-pointer"
+                                placeholder="Select Check-In Date"
+                            />
+                            {isCheckInOpen && (
+                                <Calendar
+                                    value={checkInDate}
+                                    onChange={date => {
+                                        setCheckInDate(date);
+                                        setCheckInOpen(false);
+                                    }}
+                                    minDate={new Date()}
+                                />
+                            )}
+                        </div>
+                        <div className="mb-4">
+                            <label className="block font-semibold">Check-Out:</label>
+                            <input
+                                type="text"
+                                value={checkOutDate ? checkOutDate.toISOString().split('T')[0] : ''}
+                                onClick={() => setCheckOutOpen(true)}
+                                readOnly
+                                className="border px-3 py-2 w-full cursor-pointer"
+                                placeholder="Select Check-Out Date"
+                            />
+                            {isCheckOutOpen && (
+                                <Calendar
+                                    value={checkOutDate}
+                                    onChange={date => {
+                                        setCheckOutDate(date);
+                                        setCheckOutOpen(false);
+                                    }}
+                                    minDate={checkInDate || new Date()}
+                                />
+                            )}
+                        </div>
+                    </div>
+
                     <div className="modal-action">
+                        <button className="btn bg-green-500 text-white" onClick={handleBooking}>
+                            Confirm Booking
+                        </button>
                         <form method="dialog">
-                            {/* if there is a button in form, it will close the modal */}
                             <button className="btn">Close</button>
                         </form>
                     </div>

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Provider/authProvider';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import img from '../../../src/assets/images/homeImg/145857007_307ce493-b254-4b2d-8ba4-d12c080d6651.jpg';
 
 const RoomDetail = () => {
     const { id } = useParams();
@@ -11,31 +12,39 @@ const RoomDetail = () => {
     const [reviews, setReviews] = useState([]);
     const [checkInDate, setCheckInDate] = useState(null);
     const [checkOutDate, setCheckOutDate] = useState(null);
+    const [bookingDate, setBookingDate] = useState(null); // Single-day booking
     const [isCheckInOpen, setCheckInOpen] = useState(false);
     const [isCheckOutOpen, setCheckOutOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         fetch(`http://localhost:5000/rooms/${id}`)
-            .then(res => res.json())
-            .then(data => setRoom(data))
-            .catch(error => console.error("Error fetching room details:", error));
+            .then((res) => res.json())
+            .then((data) => setRoom(data))
+            .catch((error) => console.error('Error fetching room details:', error));
+    }, [id]);
+
+    useEffect(() => {
+        fetch(`http://localhost:5000/reviews?roomId=${id}`)
+            .then((res) => res.json())
+            .then((data) => setReviews(data))
+            .catch((error) => console.error('Error fetching reviews:', error));
     }, [id]);
 
     const handleBooking = () => {
         if (!user) {
-            alert("You need to be logged in to book a room.");
-            navigate("/login");
+            alert('You need to be logged in to book a room.');
+            navigate('/login');
             return;
         }
 
         if (!room.availability) {
-            alert("This room is currently unavailable.");
+            alert('This room is currently unavailable.');
             return;
         }
 
-        if (!checkInDate || !checkOutDate) {
-            alert("Please select both check-in and check-out dates.");
+        if (!checkInDate || !checkOutDate || !bookingDate) {
+            alert('Please select check-in, check-out, and single booking dates.');
             return;
         }
 
@@ -45,16 +54,17 @@ const RoomDetail = () => {
             body: JSON.stringify({
                 checkInDate: checkInDate.toISOString().split('T')[0],
                 checkOutDate: checkOutDate.toISOString().split('T')[0],
+                bookingDate: bookingDate.toISOString().split('T')[0],
                 userId: user.id,
             }),
         })
-            .then(res => res.json())
-            .then(data => {
-                alert(data.message || "Room booked successfully!");
-                setRoom(prev => ({ ...prev, availability: false }));
+            .then((res) => res.json())
+            .then((data) => {
+                alert(data.message || 'Room booked successfully!');
+                setRoom((prev) => ({ ...prev, availability: false }));
                 document.getElementById('my_modal_5').close();
             })
-            .catch(error => console.error("Error booking room:", error));
+            .catch((error) => console.error('Error booking room:', error));
     };
 
     if (!room) return <p>Loading...</p>;
@@ -67,24 +77,7 @@ const RoomDetail = () => {
             <p>Price: ${room.price} / night</p>
             <p>Rating: ⭐ {room.rating}</p>
             <p>Room ID: {room.id}</p>
-            <p>{room.availability ? "Available" : "Unavailable"}</p>
-
-            {user && (
-                <div className="reviews">
-                    <h2 className="text-xl font-semibold mt-6">Reviews:</h2>
-                    {reviews.length > 0 ? (
-                        <ul>
-                            {reviews.map((review, index) => (
-                                <li key={index} className="border p-2 my-2">
-                                    <strong>{review.user}</strong> (⭐ {review.rating}): {review.comment}
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>No reviews available for this room.</p>
-                    )}
-                </div>
-            )}
+            <p>{room.availability ? 'Available' : 'Unavailable'}</p>
 
             {room.availability && (
                 <button
@@ -96,6 +89,34 @@ const RoomDetail = () => {
             )}
             {!room.availability && <p>This room is currently unavailable for booking.</p>}
 
+            {/* Review Section */}
+            <div className="reviews">
+                <h2 className="text-2xl font-bold mt-6">Reviews:</h2>
+                {reviews.length > 0 ? (
+                    reviews.map((review) => (
+                        <div key={review._id} className="review-item mt-4">
+                            <div className="flex">
+                                <div>
+                                    <img className="w-20 h-20" src={img} alt="" />
+                                </div>
+                                <div>
+                                    <p>
+                                        <strong>{review.reviewer}</strong>
+                                    </p>
+                                    <p>{review.reviewText}</p>
+                                    <p className="text-sm text-gray-500">
+                                        {new Date(review.timestamp).toLocaleString()}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p>No reviews yet. Be the first to review!</p>
+                )}
+            </div>
+
+            {/* Booking Modal */}
             <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
                     <img src={room.image} alt={room.name} className="w-full h-64 object-contain" />
@@ -118,7 +139,7 @@ const RoomDetail = () => {
                             {isCheckInOpen && (
                                 <Calendar
                                     value={checkInDate}
-                                    onChange={date => {
+                                    onChange={(date) => {
                                         setCheckInDate(date);
                                         setCheckInOpen(false);
                                     }}
@@ -139,7 +160,7 @@ const RoomDetail = () => {
                             {isCheckOutOpen && (
                                 <Calendar
                                     value={checkOutDate}
-                                    onChange={date => {
+                                    onChange={(date) => {
                                         setCheckOutDate(date);
                                         setCheckOutOpen(false);
                                     }}
@@ -147,14 +168,23 @@ const RoomDetail = () => {
                                 />
                             )}
                         </div>
+                        <div className="mb-4">
+                            <label className="block font-semibold">Single Booking Date:</label>
+                            <input
+                                type="date"
+                                value={bookingDate ? bookingDate.toISOString().split('T')[0] : ''}
+                                onChange={(e) => setBookingDate(new Date(e.target.value))}
+                                className="border px-3 py-2 w-full cursor-pointer"
+                                min={new Date().toISOString().split('T')[0]}
+                            />
+                        </div>
                     </div>
-
                     <div className="modal-action">
-                        <button className="btn bg-green-500 text-white" onClick={handleBooking}>
+                        <button className="btn bg-[#DDA15E] text-[#3F0113] hover:bg-[#3F0113] hover:text-[#BC6C25]" onClick={handleBooking}>
                             Confirm Booking
                         </button>
                         <form method="dialog">
-                            <button className="btn">Close</button>
+                            <button className="btn bg-[#DDA15E] text-[#3F0113] hover:bg-[#3F0113] hover:text-[#BC6C25]">Close</button>
                         </form>
                     </div>
                 </div>

@@ -21,11 +21,11 @@ const UserReviews = () => {
 
                         <div className="card bg-base-200 shadow-xl p-6">
                             <img className="w-24 h-24" src={img} alt="" />
-                            <p className="text-lg text-black pt-2 italic">{review.comment}</p>
+                            <p className="text-lg text-black pt-2 italic">{review.reviewText}</p>
                             <div className="mt-4">
-                                <strong className="text-[#3F0113]">{review.user}</strong>
+                                <strong className="text-[#3F0113]">{review.reviewer}</strong>
                                 <span className="block text-sm text-gray-500">
-                                    {new Date(review.date).toLocaleString()}
+                                    {new Date(review.timestamp).toLocaleString()}
                                 </span>
                             </div>
                         </div>

@@ -77,7 +77,7 @@ const RoomsPage = () => {
                             <h2 className="text-lg font-semibold">{room.name}</h2>
                             <p className="text-gray-600">Price: ${room.price} / night</p>
                             <p className="text-gray-600">Rating: ⭐ {room.rating || 'N/A'}</p>
-                            <p className="text-gray-600">Reviews: {room.reviewCount || 0}</p>
+                            <p className="text-gray-600">Reviews: {room.reviewsCount || 0}</p>
                         </div>
                     </div>
                 ))}

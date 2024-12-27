@@ -4,23 +4,17 @@ import { AuthContext } from '../Provider/authProvider';
 import moment from 'moment';
 
 const MyBookings = () => {
-    const [reviewModalIsOpen, setReviewModalIsOpen] = useState(false); // Review modal state
-    const [reviewText, setReviewText] = useState('');
-    const [rating, setRating] = useState(5); // Default rating
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [cancelModalIsOpen, setCancelModalIsOpen] = useState(false);
     const [updateModalIsOpen, setUpdateModalIsOpen] = useState(false);
+    const [reviewModalIsOpen, setReviewModalIsOpen] = useState(false);
     const [selectedBooking, setSelectedBooking] = useState(null);
     const [selectedDate, setSelectedDate] = useState('');
+    const [review, setReview] = useState('');
+    const [rating, setRating] = useState(1);
 
-    const { user } = useContext(AuthContext); // Access user from context
-    const handleReviewClick = (booking) => {
-        console.log("Selected booking for review:", booking); // Debugging
-        setSelectedBooking(booking);
-        setReviewModalIsOpen(true);
-    };
-
+    const { user, loading: userLoading } = useContext(AuthContext);
 
     const fetchBookings = async () => {
         if (!user) {
@@ -54,16 +48,14 @@ const MyBookings = () => {
     };
 
     const handleCancelClick = (booking) => {
-        const currentDate = moment(); // Current date
-        const bookingDate = moment(booking.bookingDate); // Booking date
-        const cancelDeadline = bookingDate.subtract(1, 'days'); // Deadline for cancellation (1 day before booking)
-
-        // If trying to cancel within less than 1 day of the booking date
+        const currentDate = moment();
+        const bookingDate = moment(booking.bookingDate);
+        const cancelDeadline = bookingDate.subtract(1, 'days');
         if (currentDate.isSameOrAfter(cancelDeadline)) {
-            setSelectedBooking(booking); // Set the selected booking
-            setCancelModalIsOpen(true); // Open the cancel modal
+            setSelectedBooking(booking);
+            setCancelModalIsOpen(true);
         } else {
-            cancelBooking(booking._id); // Proceed with cancellation if valid
+            cancelBooking(booking._id);
         }
     };
 
@@ -89,7 +81,7 @@ const MyBookings = () => {
 
     const handleUpdateDate = (booking) => {
         setSelectedBooking(booking);
-        setUpdateModalIsOpen(true); // Open the update modal
+        setUpdateModalIsOpen(true);
     };
 
     const handleUpdateModalSubmit = async () => {
@@ -100,56 +92,51 @@ const MyBookings = () => {
         await updateBookingDate(selectedBooking._id, selectedDate);
         setUpdateModalIsOpen(false);
     };
-    const submitReview = async () => {
-        if (!reviewText.trim()) {
-            toast.error("Please enter a review.");
-            return;
-        }
 
-        try {
-            // Prepare review data
-            const reviewData = {
-                bookingId: selectedBooking._id,
-                userEmail: user.email,
-                reviewText: reviewText.trim(),
-                rating: parseInt(rating), // Ensure the rating is a number
-                timestamp: new Date().toISOString(),
-            };
 
-            console.log("Review data being sent:", reviewData); // Debugging
-
-            // Send review to the backend
-            const response = await fetch('http://localhost:5000/reviews', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(reviewData),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error("Backend error:", errorData);
-                throw new Error(errorData.error || "Unknown error");
-            }
-
-            toast.success("Review submitted successfully");
-            setReviewModalIsOpen(false);
-            setReviewText('');
-            setRating(5);
-        } catch (error) {
-            console.error("Error submitting review:", error);
-            toast.error("Failed to submit review: " + error.message);
-        }
+    const handleReviewClick = (booking) => {
+        setSelectedBooking(booking);
+        setReviewModalIsOpen(true);
     };
 
 
+    const handleSubmitReview = async (e) => {
+        e.preventDefault();
+
+        const reviewData = {
+            roomId: selectedBooking.roomId,
+            rating,
+            reviewText: review,
+            userEmail: user.email,
+            reviewer: user.displayName,
+        };
+
+        try {
+            const response = await fetch('http://localhost:5000/reviews', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(reviewData),
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.message || 'Error submitting review');
+
+            alert(result.message);
+        } catch (error) {
+            console.error('Error submitting review:', error);
+            alert('There was an error submitting your review.');
+        }
+    };
 
     useEffect(() => {
+        console.log(user);
         if (user) {
             fetchBookings();
         }
     }, [user]);
 
-    if (loading) return <p>Loading...</p>;
+    if (userLoading || loading) return <p>Loading...</p>;
 
     return (
         <div>
@@ -190,7 +177,6 @@ const MyBookings = () => {
                                 >
                                     Give Review
                                 </button>
-
                             </td>
                         </tr>
                     ))}
@@ -226,7 +212,7 @@ const MyBookings = () => {
                             type="date"
                             value={selectedDate}
                             onChange={handleDateChange}
-                            min={new Date().toISOString().split('T')[0]} // Restrict to today or future dates
+                            min={new Date().toISOString().split('T')[0]}
                             className="border border-gray-300 p-2 w-full rounded-md mb-4"
                         />
                         <div className="flex justify-between">
@@ -246,40 +232,48 @@ const MyBookings = () => {
                     </div>
                 </div>
             )}
-            {reviewModalIsOpen && (
+
+            {/* Modal for Giving Review */}
+            {reviewModalIsOpen && selectedBooking && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-md w-1/3">
-                        <h2 className="text-xl font-semibold mb-4">Give Review</h2>
+                    <div className="bg-white p-6 rounded-md w-full max-w-lg sm:w-3/4 md:w-1/3">
+                        <h2 className="text-xl font-semibold mb-4">
+                            Hello, {user?.displayName || 'Guest'}! Give Review
+                        </h2>
+                        {/* Use selectedBooking to display room name and image */}
+                        <img src={selectedBooking.roomImage} alt={selectedBooking.roomName} className="w-24" />
+                        <p className="px-4 py-2">{selectedBooking.roomName}</p>
+
                         <textarea
-                            value={reviewText}
-                            onChange={(e) => setReviewText(e.target.value)}
-                            placeholder="Write your review here..."
                             className="border border-gray-300 p-2 w-full rounded-md mb-4"
+                            placeholder="Write your review here..."
+                            value={review}
+                            onChange={(e) => setReview(e.target.value)}
                         />
-                        <div className="flex items-center mb-4">
-                            <label className="mr-2">Rating:</label>
+                        <div className="mb-4">
+                            <label className="block text-sm font-semibold">Rating</label>
                             <select
                                 value={rating}
                                 onChange={(e) => setRating(e.target.value)}
-                                className="border border-gray-300 p-2 rounded-md"
+                                className="border border-gray-300 p-2 w-full rounded-md"
                             >
-                                {[1, 2, 3, 4, 5].map((r) => (
-                                    <option key={r} value={r}>
-                                        {r} Star{r > 1 && 's'}
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <option key={star} value={star}>
+                                        {star} Star{star > 1 ? 's' : ''}
                                     </option>
                                 ))}
                             </select>
                         </div>
-                        <div className="flex justify-between">
-                            <button
-                                onClick={submitReview}
-                                className="bg-blue-500 text-white px-4 py-2 rounded-md"
-                            >
-                                Submit Review
-                            </button>
+                        <div className="mb-4">
+                            <span className="text-sm text-gray-500">Timestamp: {moment().format('YYYY-MM-DD HH:mm:ss')}</span>
+                        </div>
+                        <div className="flex flex-wrap justify-between gap-2">
+
+                            <button onClick={handleSubmitReview}>Submit Review</button>
+
                             <button
                                 onClick={() => setReviewModalIsOpen(false)}
-                                className="bg-gray-500 text-white px-4 py-2 rounded-md"
+                                className="bg-gray-500 text-white px-4 py-2 rounded-md w-full sm:w-auto"
                             >
                                 Cancel
                             </button>
@@ -287,6 +281,8 @@ const MyBookings = () => {
                     </div>
                 </div>
             )}
+
+
 
         </div>
     );

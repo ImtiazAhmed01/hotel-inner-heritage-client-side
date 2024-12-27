@@ -1,8 +1,65 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Hotel Inner Heritage 
 
-Currently, two official plugins are available:
+Hotel Inner Heritage is a web application that showcases a luxurious heritage hotel, allowing users to explore rooms, book accommodations, and share reviews. It integrates modern design with user-friendly features for seamless interaction.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Features
+## Homepage:
+
+- Dynamic slider banner with a call-to-action button.
+
+- Map displaying the hotel's location using react-leaflet.
+
+- Featured rooms with images, descriptions, and "Book Now" buttons.
+
+- Special offers and promotions displayed in a popup modal.
+
+- Authentic user reviews sorted by timestamp.
+## User Authentication:
+
+- Email/password-based login and registration.
+
+- Google or GitHub login (choose one).
+
+## Rooms Management:
+
+- Display all rooms with filter options by price range.
+
+- Detailed room information and reviews on individual pages.
+
+## Booking System:
+
+- Book rooms with date selection and view booking summaries.
+
+- Cancel bookings (restrictions apply) and update booking dates.
+
+## Review System:
+
+- Post reviews for booked rooms with ratings, comments, and timestamps.
+
+- Reviews displayed on the room details page.
+
+## Access Control:
+
+- Only authenticated users can book rooms or post reviews.
+
+## Miscellaneous:
+
+- 404 page with a "Back to Home" button.
+
+- Smooth animations using framer-motion.
+
+- Browser metadata updates using react-helmet.
+## NPM Packages used
+
+- react-leaflet: For map integration.
+
+- react-helmet: To update browser tab titles and meta-data.
+
+- framer-motion: For animations.
+
+- moment.js: For date comparison and formatting.
+## Live Link
+
+ - Click [here](https://hotel-inner-heritage.web.app/) to watch the website.
+

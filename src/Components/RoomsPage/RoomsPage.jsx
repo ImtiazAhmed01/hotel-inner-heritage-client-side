@@ -12,7 +12,7 @@ const RoomsPage = () => {
         if (minPrice) query.append('minPrice', minPrice);
         if (maxPrice) query.append('maxPrice', maxPrice);
 
-        fetch(`http://localhost:5000/rooms?${query.toString()}`)
+        fetch(`https://hotel-inner-heritage-server.vercel.app/rooms?${query.toString()}`)
             .then((res) => res.json())
             .then((data) => setRooms(data))
             .catch((error) => console.error("Error fetching rooms:", error));

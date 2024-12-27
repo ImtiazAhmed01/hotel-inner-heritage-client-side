@@ -10,6 +10,7 @@ import SpecialOffers from './SpecialOffers';
 import LuxuryExpeiences from './LuxuryExperiences';
 import FeaturedRooms from './FeaturedRooms';
 import UserReviews from '../UserReviews/UserReviews';
+import CulturalHeritageExperience from './CulturalHeritageExperience';
 
 const Home = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -133,8 +134,11 @@ const Home = () => {
             <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
                 <LuxuryExpeiences></LuxuryExpeiences>
             </div>
-            <div >
+            <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
                 <SpecialOffers />
+            </div>
+            <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+                <CulturalHeritageExperience></CulturalHeritageExperience>
             </div>
 
         </div>

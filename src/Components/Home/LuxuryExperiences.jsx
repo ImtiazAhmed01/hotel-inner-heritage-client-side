@@ -1,20 +1,23 @@
 import { motion } from "framer-motion";
+import img1 from '../../../src/assets/images/LuxuryExperiences/margaritaville-pool-sunrise.jpg'
+import img2 from '../../../src/assets/images/LuxuryExperiences/1.jpg'
+import img3 from "../../../src/assets/images/LuxuryExperiences/Masteka.jpg"
 
 const experiencesData = [
     {
         title: "Private Beach Dinner",
         description: "Indulge in a romantic dinner under the stars on a private beach.",
-        image: "../../../src/assets/images/LuxuryExperiences/margaritaville-pool-sunrise.jpg",
+        image: img1,
     },
     {
         title: "Spa & Wellness",
         description: "Rejuvenate your body and mind with our exclusive spa treatments.",
-        image: "../../../src/assets/images/LuxuryExperiences/1.jpg",
+        image: img2,
     },
     {
         title: "Luxury Yacht Cruise Service",
         description: "Explore the sea in style with our exclusive yacht packages.",
-        image: "../../../src/assets/images/LuxuryExperiences/Masteka.jpg",
+        image: img3,
     },
 ];
 

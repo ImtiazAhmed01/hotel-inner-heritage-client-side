@@ -1,12 +1,15 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import hsimg from '../../assets/images/HoneymoonSuite/80a89775765f24c1135e09aeaaa46f79.jpg'
+import img1 from "../../../src/assets/images/SpecialOfferImg/images.jpg"
+import img2 from "../../../src/assets/images/SpecialOfferImg/Melbourne Hotels and Apartments with Best Romantic Views - DoubleTree by Hilton Melbourne.jpg"
+import img3 from "../../../src/assets/images/SpecialOfferImg/images (1).jpg"
 
 const SpecialOffers = () => {
     const offers = [
-        { title: "Winter Discount", description: "Get 25% off on all bookings made this winter season!", imageUrl: "../../../src/assets/images/SpecialOfferImg/images.jpg" },
-        { title: "Stay 3 Nights, Get 1 Free", description: "Book 3 nights and get the 4th night absolutely free.", imageUrl: "../../../src/assets/images/SpecialOfferImg/Melbourne Hotels and Apartments with Best Romantic Views - DoubleTree by Hilton Melbourne.jpg" },
-        { title: "Early Bird Special", description: "Book your stay at least 30 days in advance and get 20% off.", imageUrl: "../../../src/assets/images/SpecialOfferImg/images (1).jpg" },
+        { title: "Winter Discount", description: "Get 25% off on all bookings made this winter season!", imageUrl: img1 },
+        { title: "Stay 3 Nights, Get 1 Free", description: "Book 3 nights and get the 4th night absolutely free.", imageUrl: img2 },
+        { title: "Early Bird Special", description: "Book your stay at least 30 days in advance and get 20% off.", imageUrl: img3 },
     ];
 
     const [selectedOffer, setSelectedOffer] = useState(null);

@@ -1,7 +1,8 @@
 
 # Hotel Inner Heritage 
 
-Hotel Inner Heritage is a web application that showcases a luxurious heritage hotel, allowing users to explore rooms, book accommodations, and share reviews. It integrates modern design with user-friendly features for seamless interaction.
+## Project overview
+Hotel Inner Heritage is a web application that showcases a luxurious heritage hotel, allowing users to explore available rooms, book accommodations, and share reviews. It integrates modern design with user-friendly features for a seamless experience. The platform offers interactive UI elements, a booking system with date selection, and an integrated review mechanism. Users can authenticate via email/password or social login, view detailed room information, and access exclusive promotions. The application also includes a dynamic slider banner, a hotel location map, and smooth animations for an engaging experience.
 
 # Features
 ## Homepage:

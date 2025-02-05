@@ -69,6 +69,10 @@ Hotel Inner Heritage is a web application that showcases a luxurious heritage ho
 - **State Management:** React Context API
 - **UI Enhancements:** react-toastify, sweetalert2, react-tooltip
 
+## Live Link
+
+ - Click [here](https://hotel-inner-heritage.web.app/) to watch the website.
+
 
 ### Prerequisites  
 Ensure you have the following installed:  
@@ -92,11 +96,26 @@ Ensure you have the following installed:
    ```sh
    npm install
    ``` 
-3. Create a `.env` file in the project root and add the required environment variables (see below).  
-4. Start the development server:  
-   ```bash
-   npm run dev
+3. Create a `.env` file in the project root and add the required environment variables .
+   
+   ```env
+   VITE_apiKey=YOUR_API_KEY
+   VITE_authDomain=YOUR_AUTH_DOMAIN
+   VITE_projectId=YOUR_PROJECT_ID
+   VITE_storageBucket=YOUR_STORAGE_BUCKET
+   VITE_messagingSenderId=YOUR_MESSAGING_SENDER_ID
+   VITE_appId=YOUR_APP_ID
    ```  
+5. Running Locally
+```sh
+npm run dev
+```
+
+5. Building for Production
+```sh
+npm run build
+```
+
 
 ## Usage  
 - Visit `http://localhost:5173` to access the application.  
@@ -137,21 +156,7 @@ Ensure you have the following installed:
 - **`tailwindcss`** & **`daisyUI`**: Styling framework.  
 - **`vite`**: Frontend build tool for fast development.  
 
-## Environment Variables  
-Create a `.env` file in the root directory and add the following:  
-
-```env
-VITE_apiKey=your-api-key
-VITE_authDomain=your-auth-domain
-VITE_projectId=your-project-id
-VITE_storageBucket=your-storage-bucket
-VITE_messagingSenderId=your-messaging-sender-id
-VITE_appId=your-app-id
-```  
 
 
 
-## Live Link
-
- - Click [here](https://hotel-inner-heritage.web.app/) to watch the website.
 

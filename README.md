@@ -148,7 +148,7 @@ VITE_storageBucket=your-storage-bucket
 VITE_messagingSenderId=your-messaging-sender-id
 VITE_appId=your-app-id
 ```  
-🔒 **Do not share your `.env` file publicly.**  
+
 
 
 ## Live Link

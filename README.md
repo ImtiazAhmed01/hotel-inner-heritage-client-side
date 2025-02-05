@@ -62,6 +62,12 @@ Hotel Inner Heritage is a web application that showcases a luxurious heritage ho
 
 - moment.js: For date comparison and formatting.
 
+## ⚙️ Technologies Used
+
+- **Frontend:** React, Vite, Tailwind CSS, daisyUI
+- **Backend & Database:** Firebase (Authentication, Firestore, Hosting)
+- **State Management:** React Context API
+- **UI Enhancements:** react-toastify, sweetalert2, react-tooltip
 
 
 ### Prerequisites  

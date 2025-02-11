@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import slider1Image from "../../../src/assets/images/homeImg/300142_14090419010021868663.jpg";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import slider2Image from "../../../src/assets/images/homeImg/;kgds; (7).jpg";
 import slider3Image from "../../../src/assets/images/homeImg/sfgdfg (5).jpg";
 import slider4Image from "../../../src/assets/images/homeImg/;kgds; (3).jpg";
-import HotelMap from './HotelMap';
-// import FeaturedRooms from './FeaturedRooms';
-import SpecialOffers from './SpecialOffers';
-import LuxuryExpeiences from './LuxuryExperiences';
-import FeaturedRooms from './FeaturedRooms';
-import UserReviews from '../UserReviews/UserReviews';
-import CulturalHeritageExperience from './CulturalHeritageExperience';
+import HotelMap from "./HotelMap";
+import SpecialOffers from "./SpecialOffers";
+import LuxuryExpeiences from "./LuxuryExperiences";
+import FeaturedRooms from "./FeaturedRooms";
+import UserReviews from "../UserReviews/UserReviews";
+import CulturalHeritageExperience from "./CulturalHeritageExperience";
 
 const Home = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -21,7 +20,14 @@ const Home = () => {
     };
 
     const handleRedirect = () => {
-        navigate('/roomspage'); // Redirect to the Rooms page
+        navigate("/roomspage");
+    };
+
+    const smoothScroll = (targetId) => {
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
     };
 
     return (
@@ -30,7 +36,8 @@ const Home = () => {
                 <div>
                     <button
                         onClick={toggleTheme}
-                        className={`px-4 py-2 rounded-md ${darkMode ? "bg-gray-200 text-black" : "bg-gray-800 text-white"}`}
+                        className={`px-4 py-2 rounded-md ${darkMode ? "bg-gray-200 text-black" : "bg-gray-800 text-white"
+                            }`}
                     >
                         {darkMode ? "Light Mode" : "Dark Mode"}
                     </button>
@@ -38,11 +45,12 @@ const Home = () => {
 
                 {/* Slider Section */}
                 <div className="carousel w-full">
+                    {/* Slide 1 */}
                     <div id="slide1" className="carousel-item relative w-full">
-                        <img src={slider1Image} className="w-full h-[500px] object-contain" />
+                        <img src={slider4Image} className="w-full h-[500px] object-contain" />
                         <div className="absolute text-center inset-x-0 bottom-8 bg-opacity-70 bg-black text-white py-4 px-6">
-                            <h2 className="text-xl font-bold">Discover Luxurious Stays</h2>
-                            <p>Experience comfort and elegance with our carefully curated rooms designed to make you feel at home.</p>
+                            <h2 className="text-xl font-bold">Book Your Dream Stay Today</h2>
+                            <p>Find the perfect room for your next getaway.</p>
                             <button
                                 onClick={handleRedirect}
                                 className="mt-4 px-6 py-2 bg-[#DDA15E] text-[#3F0113] btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
@@ -51,16 +59,21 @@ const Home = () => {
                             </button>
                         </div>
                         <div className="absolute left-5 right-5 top-1/2 transform -translate-y-1/2 flex justify-between">
-                            <a href="#slide4" className="btn btn-circle">❮</a>
-                            <a href="#slide2" className="btn btn-circle">❯</a>
+                            <button onClick={() => smoothScroll("slide3")} className="btn btn-circle">
+                                ❮
+                            </button>
+                            <button onClick={() => smoothScroll("slide2")} className="btn btn-circle">
+                                ❯
+                            </button>
                         </div>
                     </div>
+
                     {/* Slide 2 */}
                     <div id="slide2" className="carousel-item relative w-full">
                         <img src={slider2Image} className="w-full h-[500px] object-contain" />
                         <div className="absolute text-center inset-x-0 bottom-8 bg-opacity-70 bg-black text-white py-4 px-6">
                             <h2 className="text-xl font-bold">Unmatched Hospitality</h2>
-                            <p>Let our dedicated staff provide personalized services that create unforgettable memories.</p>
+                            <p>Let our staff provide personalized services.</p>
                             <button
                                 onClick={handleRedirect}
                                 className="mt-4 px-6 py-2 bg-[#DDA15E] text-[#3F0113] btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
@@ -69,16 +82,21 @@ const Home = () => {
                             </button>
                         </div>
                         <div className="absolute left-5 right-5 top-1/2 transform -translate-y-1/2 flex justify-between">
-                            <a href="#slide1" className="btn btn-circle">❮</a>
-                            <a href="#slide3" className="btn btn-circle">❯</a>
+                            <button onClick={() => smoothScroll("slide1")} className="btn btn-circle">
+                                ❮
+                            </button>
+                            <button onClick={() => smoothScroll("slide3")} className="btn btn-circle">
+                                ❯
+                            </button>
                         </div>
                     </div>
+
                     {/* Slide 3 */}
                     <div id="slide3" className="carousel-item relative w-full">
                         <img src={slider3Image} className="w-full h-[500px] object-contain" />
                         <div className="absolute text-center inset-x-0 bottom-8 bg-opacity-70 bg-black text-white py-4 px-6">
                             <h2 className="text-xl font-bold">Your Comfort, Our Priority</h2>
-                            <p>Relax in our premium accommodations featuring modern amenities and breathtaking views.</p>
+                            <p>Relax in our premium accommodations.</p>
                             <button
                                 onClick={handleRedirect}
                                 className="mt-4 px-6 py-2 bg-[#DDA15E] text-[#3F0113] btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
@@ -87,30 +105,17 @@ const Home = () => {
                             </button>
                         </div>
                         <div className="absolute left-5 right-5 top-1/2 transform -translate-y-1/2 flex justify-between">
-                            <a href="#slide2" className="btn btn-circle">❮</a>
-                            <a href="#slide4" className="btn btn-circle">❯</a>
-                        </div>
-                    </div>
-                    {/* Slide 4 */}
-                    <div id="slide4" className="carousel-item relative w-full">
-                        <img src={slider4Image} className="w-full h-[500px] object-contain" />
-                        <div className="absolute text-center inset-x-0 bottom-8 bg-opacity-70 bg-black text-white py-4 px-6">
-                            <h2 className="text-xl font-bold">Book Your Dream Stay Today</h2>
-                            <p>Find the perfect room for your next getaway, tailored to fit your needs and style.</p>
-                            <button
-                                onClick={handleRedirect}
-                                className="mt-4 px-6 py-2 bg-[#DDA15E] text-[#3F0113] btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
-                            >
-                                Go to Rooms
+                            <button onClick={() => smoothScroll("slide2")} className="btn btn-circle">
+                                ❮
                             </button>
-                        </div>
-                        <div className="absolute left-5 right-5 top-1/2 transform -translate-y-1/2 flex justify-between">
-                            <a href="#slide3" className="btn btn-circle">❮</a>
-                            <a href="#slide1" className="btn btn-circle">❯</a>
+                            <button onClick={() => smoothScroll("slide1")} className="btn btn-circle">
+                                ❯
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+
             {/* Our Location */}
             <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
                 <h2 className="text-center text-2xl font-bold mb-4">Our Location</h2>
@@ -119,28 +124,26 @@ const Home = () => {
                 </div>
             </div>
 
-
-            {/* Featured rooms */}
+            {/* Featured Rooms */}
             <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
-                <FeaturedRooms></FeaturedRooms>
+                <FeaturedRooms />
             </div>
 
+            {/* User Reviews */}
             <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-[#DDA15E] text-black"}`}>
-                <UserReviews></UserReviews>
+                <UserReviews />
             </div>
 
-            {/* Other sections of the Home page */}
-
+            {/* Other Sections */}
             <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
-                <LuxuryExpeiences></LuxuryExpeiences>
+                <LuxuryExpeiences />
             </div>
             <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
                 <SpecialOffers />
             </div>
             <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
-                <CulturalHeritageExperience></CulturalHeritageExperience>
+                <CulturalHeritageExperience />
             </div>
-
         </div>
     );
 };

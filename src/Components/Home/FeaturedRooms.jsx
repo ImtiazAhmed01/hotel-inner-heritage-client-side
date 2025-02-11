@@ -50,7 +50,7 @@ const FeaturedRooms = () => {
                 ))}
 
             </div>
-            <div className='justify-center'>
+            <div className='text-center'>
                 <button
                     className="bg-[#DDA15E] text-[#3F0113] mt-4 px-6 py-2 btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
                     onClick={() => handleMore()}

@@ -15,6 +15,12 @@ const FeaturedRooms = () => {
     const handleBookNow = (id) => {
         navigate(`/room/${id}`);
     };
+    const handleCardClick = (id) => {
+        navigate(`/room/${id}`);
+    };
+    const handleMore = () => {
+        navigate("roomspage");
+    };
 
     return (
         <div className="featured-rooms">
@@ -33,8 +39,24 @@ const FeaturedRooms = () => {
                         >
                             Book Now
                         </button>
+                        <button
+                            className="bg-[#DDA15E] text-[#3F0113] mt-4 px-6 py-2 btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
+                            onClick={() => handleCardClick(room._id)}
+                        >
+                            Details
+                        </button>
+
                     </div>
                 ))}
+
+            </div>
+            <div className='justify-center'>
+                <button
+                    className="bg-[#DDA15E] text-[#3F0113] mt-4 px-6 py-2 btn hover:bg-[#3F0113] hover:text-[#BC6C25]"
+                    onClick={() => handleMore()}
+                >
+                    See more
+                </button>
             </div>
         </div>
     );

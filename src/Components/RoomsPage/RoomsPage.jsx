@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ClipLoader } from 'react-spinners';
 
 const RoomsPage = () => {
     const [rooms, setRooms] = useState([]);
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
     const [sortOrder, setSortOrder] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const fetchRooms = () => {
+        setLoading(true);
         const query = new URLSearchParams();
         if (minPrice) query.append('minPrice', minPrice);
         if (maxPrice) query.append('maxPrice', maxPrice);
@@ -24,7 +27,8 @@ const RoomsPage = () => {
                 }
                 setRooms(sortedData);
             })
-            .catch((error) => console.error("Error fetching rooms:", error));
+            .catch((error) => console.error("Error fetching rooms:", error))
+            .finally(() => setLoading(false));
     };
 
     useEffect(() => {
@@ -84,28 +88,34 @@ const RoomsPage = () => {
                 </button>
             </div>
 
-            {/* Rooms Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {rooms.map((room) => (
-                    <div
-                        key={room._id}
-                        className="border rounded-lg shadow-md cursor-pointer hover:shadow-lg transition bg-[#FEFAE0]"
-                        onClick={() => handleCardClick(room._id)}
-                    >
-                        <img
-                            src={room.image}
-                            alt={room.name}
-                            className="w-full h-40 object-cover rounded-t-lg"
-                        />
-                        <div className="p-4">
-                            <h2 className="text-lg font-semibold">{room.name}</h2>
-                            <p className="text-gray-600">Price: ${room.price} / night</p>
-                            <p className="text-gray-600">Rating: ⭐ {room.rating || 'N/A'}</p>
-                            <p className="text-gray-600">Reviews: {room.reviewsCount || 0}</p>
+            {/* Loading Spinner */}
+            {loading ? (
+                <div className="flex justify-center items-center h-40">
+                    <ClipLoader size={50} color="#DDA15E" />
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {rooms.map((room) => (
+                        <div
+                            key={room._id}
+                            className="border rounded-lg shadow-md cursor-pointer hover:shadow-lg transition bg-[#FEFAE0]"
+                            onClick={() => handleCardClick(room._id)}
+                        >
+                            <img
+                                src={room.image}
+                                alt={room.name}
+                                className="w-full h-40 object-cover rounded-t-lg"
+                            />
+                            <div className="p-4">
+                                <h2 className="text-lg font-semibold">{room.name}</h2>
+                                <p className="text-gray-600">Price: ${room.price} / night</p>
+                                <p className="text-gray-600">Rating: ⭐ {room.rating || 'N/A'}</p>
+                                <p className="text-gray-600">Reviews: {room.reviewsCount || 0}</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

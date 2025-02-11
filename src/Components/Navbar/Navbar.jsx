@@ -20,26 +20,30 @@ const Navbar = () => {
     const links = (
         <>
             <li>
-                <NavLink to="" activeclassname="active">
+                <NavLink to="/" className={({ isActive }) => isActive ? "text-[#BC6C25] font-bold" : "hover:text-[#BC6C25]"}>
                     Home
                 </NavLink>
             </li>
             <li>
-                <NavLink to="/roomspage" activeclassname="active">
+                <NavLink to="/roomspage" className={({ isActive }) => isActive ? "text-[#BC6C25] font-bold" : "hover:text-[#BC6C25]"}>
                     Rooms
                 </NavLink>
             </li>
             <li>
-                <NavLink to="/aboutus" activeclassname="active">
+                <NavLink to="/aboutus" className={({ isActive }) => isActive ? "text-[#BC6C25] font-bold" : "hover:text-[#BC6C25]"}>
                     About Us
                 </NavLink>
             </li>
-
             {user && user.displayName && (
                 <>
                     <li>
-                        <NavLink to="/mybookings" activeclassname="active">
+                        <NavLink to="/mybookings" className={({ isActive }) => isActive ? "text-[#BC6C25] font-bold" : "hover:text-[#BC6C25]"}>
                             My Bookings
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/myreviews" className={({ isActive }) => isActive ? "text-[#BC6C25] font-bold" : "hover:text-[#BC6C25]"}>
+                            My Reviews
                         </NavLink>
                     </li>
                 </>
@@ -48,7 +52,7 @@ const Navbar = () => {
     );
 
     return (
-        <div>
+        <div className="sticky top-0 z-50 shadow-md bg-[#e5e4e2]">
             {user && user.displayName && (
                 <div className="bg-[#FEFAE0] text-center py-2">
                     <span className="text-sm font-medium text-[#333533]">
@@ -56,95 +60,59 @@ const Navbar = () => {
                     </span>
                 </div>
             )}
-            <div className="navbar" style={{ backgroundColor: "#e5e4e2" }}>
-                <div className="navbar-start">
-                    <div className="dropdown">
-                        <button tabIndex={0} className="btn btn-ghost lg:hidden text-[#3F0113]">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M4 6h16M4 12h8m-8 6h16"
-                                />
+            <nav className="navbar px-4 py-3 flex justify-between items-center">
+                <div className="flex items-center">
+                    {/* Mobile Dropdown */}
+                    <div className="dropdown lg:hidden">
+                        <button tabIndex={0} className="btn btn-ghost text-[#3F0113]">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
                             </svg>
                         </button>
-                        <ul
-                            tabIndex={0}
-                            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow"
-                            style={{ backgroundColor: "#FEFAE0", color: "#333533" }}
-                        >
+                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-[#FEFAE0] rounded-box">
                             {links}
                         </ul>
                     </div>
 
-                    <NavLink
-                        to="/"
-                        className="btn btn-ghost normal-case md:text-xl font-bold text-[#3F0113]"
-                    >
+                    <NavLink to="/" className="text-2xl font-bold text-[#3F0113]">
                         Hotel Inner Heritage
                     </NavLink>
                 </div>
-                <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1 text-[#3F0113]">{links}</ul>
+
+                {/* Desktop Links */}
+                <div className="hidden lg:flex">
+                    <ul className="menu menu-horizontal space-x-4">{links}</ul>
                 </div>
-                <div className="navbar-end gap-4 flex items-center">
+
+                {/* User Actions */}
+                <div className="flex items-center gap-4">
                     {user && user.photoURL && (
                         <div className="relative group">
-                            <img
-                                src={user.photoURL}
-                                alt="User Avatar"
-                                className="w-8 h-8 rounded-full"
-                            />
-                            <div
-                                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-sm bg-black bg-opacity-75 py-1 px-2 rounded-lg text-[#3F0113] opacity-0 group-hover:opacity-100 transition-opacity"
-                            >
+                            <img src={user.photoURL} alt="User Avatar" className="w-8 h-8 rounded-full" />
+                            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-sm bg-black bg-opacity-75 py-1 px-2 rounded-lg text-[#FEFAE0] opacity-0 group-hover:opacity-100 transition-opacity">
                                 {user.displayName}
                             </div>
                         </div>
                     )}
-                    {user && user.displayName ? (
-                        <div className="flex items-center gap-4">
-                            <button
-                                className="btn"
-                                style={{
-                                    backgroundColor: "#DDA15E",
-                                    color: "#3F0113",
-                                    border: "none",
-                                }}
-                                onClick={handleLogout}
-                            >
-                                Log Out
-                            </button>
-                        </div>
+                    {user ? (
+                        <button
+                            className="btn bg-[#DDA15E] text-[#3F0113] border-none hover:bg-[#BC6C25]"
+                            onClick={handleLogout}
+                        >
+                            Log Out
+                        </button>
                     ) : (
-                        <div className="flex gap-4">
-                            <NavLink
-                                to="/register"
-                                className={({ isActive }) =>
-                                    `btn ${isActive ? "bg-[#BC6C25] text-[#3F0113]" : "btn-outline border-[#BC6C25] text-[#BC6C25]"}`
-                                }
-                            >
+                        <div className="flex gap-2">
+                            <NavLink to="/register" className="btn btn-outline border-[#BC6C25] text-[#BC6C25] hover:bg-[#BC6C25] hover:text-white">
                                 Sign Up
                             </NavLink>
-                            <NavLink
-                                to="/login"
-                                className={({ isActive }) =>
-                                    `btn ${isActive ? "bg-[#BC6C25] text-[#3F0113]" : "btn-outline border-[#BC6C25] text-[#BC6C25]"}`
-                                }
-                            >
+                            <NavLink to="/login" className="btn btn-outline border-[#BC6C25] text-[#BC6C25] hover:bg-[#BC6C25] hover:text-white">
                                 Log In
                             </NavLink>
                         </div>
                     )}
                 </div>
-            </div>
+            </nav>
         </div>
     );
 };

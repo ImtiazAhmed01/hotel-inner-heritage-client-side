@@ -5,6 +5,7 @@ const RoomsPage = () => {
     const [rooms, setRooms] = useState([]);
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
+    const [sortOrder, setSortOrder] = useState('');
     const navigate = useNavigate();
 
     const fetchRooms = () => {
@@ -14,14 +15,21 @@ const RoomsPage = () => {
 
         fetch(`https://hotel-inner-heritage-server.vercel.app/rooms?${query.toString()}`)
             .then((res) => res.json())
-            .then((data) => setRooms(data))
+            .then((data) => {
+                let sortedData = [...data];
+                if (sortOrder === 'asc') {
+                    sortedData.sort((a, b) => a.price - b.price);
+                } else if (sortOrder === 'desc') {
+                    sortedData.sort((a, b) => b.price - a.price);
+                }
+                setRooms(sortedData);
+            })
             .catch((error) => console.error("Error fetching rooms:", error));
     };
 
     useEffect(() => {
-        // Fetch all rooms on initial load
         fetchRooms();
-    }, []);
+    }, [sortOrder]);
 
     const handleFilter = (e) => {
         e.preventDefault();
@@ -29,15 +37,15 @@ const RoomsPage = () => {
     };
 
     const handleCardClick = (id) => {
-        navigate(`/room/${id}`); // Redirect to room details page
+        navigate(`/room/${id}`);
     };
 
     return (
         <div className="p-8">
             <h1 className="text-3xl font-bold mb-6">Available Rooms</h1>
 
-            {/* Filter */}
-            <form className="mb-6 flex gap-4" onSubmit={handleFilter}>
+            {/* Filter & Sorting Controls */}
+            <form className="mb-6 flex flex-wrap gap-4" onSubmit={handleFilter}>
                 <input
                     type="number"
                     placeholder="Min Price"
@@ -59,6 +67,22 @@ const RoomsPage = () => {
                     Filter
                 </button>
             </form>
+
+            {/* Sort Buttons */}
+            <div className="mb-6 flex gap-4">
+                <button
+                    onClick={() => setSortOrder('asc')}
+                    className={`btn ${sortOrder === 'asc' ? 'bg-[#3F0113] text-[#BC6C25]' : 'bg-[#DDA15E] text-[#3F0113]'}`}
+                >
+                    Sort by Price: Low to High
+                </button>
+                <button
+                    onClick={() => setSortOrder('desc')}
+                    className={`btn ${sortOrder === 'desc' ? 'bg-[#3F0113] text-[#BC6C25]' : 'bg-[#DDA15E] text-[#3F0113]'}`}
+                >
+                    Sort by Price: High to Low
+                </button>
+            </div>
 
             {/* Rooms Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

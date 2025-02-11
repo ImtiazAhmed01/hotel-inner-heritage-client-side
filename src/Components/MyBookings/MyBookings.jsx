@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../Provider/authProvider';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 
 const MyBookings = () => {
     const [bookings, setBookings] = useState([]);
@@ -93,18 +94,19 @@ const MyBookings = () => {
         setUpdateModalIsOpen(false);
     };
 
-
     const handleReviewClick = (booking) => {
         setSelectedBooking(booking);
         setReviewModalIsOpen(true);
     };
-
 
     const handleSubmitReview = async (e) => {
         e.preventDefault();
 
         const reviewData = {
             roomId: selectedBooking.roomId,
+            roomName: selectedBooking.roomName,
+            image: selectedBooking.roomImage,
+            price: selectedBooking.price,
             rating,
             reviewText: review,
             userEmail: user.email,
@@ -112,7 +114,7 @@ const MyBookings = () => {
         };
 
         try {
-            const response = await fetch('https://hotel-inner-heritage-server.vercel.app/reviews', {
+            const response = await fetch('http://localhost:5000/reviews', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -122,15 +124,22 @@ const MyBookings = () => {
             const result = await response.json();
             if (!response.ok) throw new Error(result.message || 'Error submitting review');
 
-            alert(result.message);
+            Swal.fire({
+                icon: 'success',
+                title: 'Review Submitted',
+                text: result.message || 'Your review has been submitted successfully!',
+            });
         } catch (error) {
             console.error('Error submitting review:', error);
-            alert('There was an error submitting your review.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'There was an error submitting your review.',
+            });
         }
     };
 
     useEffect(() => {
-        console.log(user);
         if (user) {
             fetchBookings();
         }
@@ -141,52 +150,49 @@ const MyBookings = () => {
     return (
         <div>
             <h2 className="text-2xl font-semibold mb-4">My Bookings</h2>
-            <table className="min-w-full table-auto">
-                <thead>
-                    <tr>
-                        <th className="px-4 py-2">Image</th>
-                        <th className="px-4 py-2">Name</th>
-                        <th className="px-4 py-2">Price</th>
-                        <th className="px-4 py-2">Actions</th>
-                    </tr>
-                </thead>
-                <tbody className="border">
-                    {bookings.map((booking) => (
-                        <tr key={booking._id}>
-                            <td className="pl-16">
-                                <img src={booking.roomImage} alt={booking.roomName} className="w-24" />
-                            </td>
-                            <td className="px-4 py-2">{booking.roomName}</td>
-                            <td className="px-4 py-2">${booking.price}</td>
-                            <td className="pl-">
-                                <button
-                                    className="bg-red-500 text-white ml-10 px-4 py-2 rounded-md mr-2"
-                                    onClick={() => handleCancelClick(booking)}
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"
-                                    onClick={() => handleUpdateDate(booking)}
-                                >
-                                    Update Date
-                                </button>
-                                <button
-                                    className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"
-                                    onClick={() => handleReviewClick(booking)}
-                                >
-                                    Give Review
-                                </button>
-                            </td>
+
+            <div className="overflow-x-auto lg:px-16">
+                <table className="w-full border-collapse">
+                    <thead>
+                        <tr className="bg-gray-200">
+                            <th className="px-4 py-2 text-left">Image</th>
+                            <th className="px-4 py-2 text-left">Name</th>
+                            <th className="px-4 py-2 text-left">Price</th>
+                            <th className="px-4 py-2 text-left">Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {bookings.map((booking) => (
+                            <tr key={booking._id} className="border-b">
+                                <td className="px-4 py-2">
+                                    <img src={booking.roomImage} alt={booking.roomName} className="w-24 h-24 object-cover rounded-md" />
+                                </td>
+                                <td className="px-4 py-2 text-sm sm:text-base">{booking.roomName}</td>
+                                <td className="px-4 py-2 text-sm sm:text-base">${booking.price}</td>
+                                <td className="px-4 py-2">
+                                    <div className="flex flex-col sm:flex-row gap-2">
+                                        <button className="bg-[#DDA15E] text-[#3F0113] hover:bg-[#3F0113] hover:text-[#BC6C25] px-4 py-1 rounded-md"
+                                            onClick={() => handleCancelClick(booking)}
+                                        >Cancel</button>
+                                        <button className="bg-[#DDA15E] text-[#3F0113] hover:bg-[#3F0113] hover:text-[#BC6C25] px-4 py-1 rounded-md"
+                                            onClick={() => handleUpdateDate(booking)}
+                                        >Update Date</button>
+                                        <button className="bg-[#DDA15E] text-[#3F0113] hover:bg-[#3F0113] hover:text-[#BC6C25] px-4 py-1 rounded-md"
+                                            onClick={() => handleReviewClick(booking)}
+                                        >Give Review</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
 
             {/* Modal for Cancellation Restriction */}
             {cancelModalIsOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-md w-1/3">
+                    <div className="bg-white p-6 rounded-md w-11/12 sm:w-1/3">
                         <h2 className="text-xl font-semibold mb-4 text-red-600">Cannot Cancel Booking</h2>
                         <p className="mb-4">
                             You cannot cancel this booking as it is less than 1 day before the check-in date.
@@ -206,7 +212,7 @@ const MyBookings = () => {
             {/* Modal for Updating Booking Date */}
             {updateModalIsOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-md w-1/3">
+                    <div className="bg-white p-6 rounded-md w-11/12 sm:w-1/3">
                         <h2 className="text-xl font-semibold mb-4">Update Booking Date</h2>
                         <input
                             type="date"
@@ -236,11 +242,10 @@ const MyBookings = () => {
             {/* Modal for Giving Review */}
             {reviewModalIsOpen && selectedBooking && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-md w-full max-w-lg sm:w-3/4 md:w-1/3">
+                    <div className="bg-white p-6 rounded-md w-11/12 sm:w-1/3">
                         <h2 className="text-xl font-semibold mb-4">
                             Hello, {user?.displayName || 'Guest'}! Give Review
                         </h2>
-                        {/* Use selectedBooking to display room name and image */}
                         <img src={selectedBooking.roomImage} alt={selectedBooking.roomName} className="w-24" />
                         <p className="px-4 py-2">{selectedBooking.roomName}</p>
 
@@ -268,7 +273,6 @@ const MyBookings = () => {
                             <span className="text-sm text-gray-500">Timestamp: {moment().format('YYYY-MM-DD HH:mm:ss')}</span>
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
-
                             <button onClick={handleSubmitReview}>Submit Review</button>
 
                             <button
@@ -281,9 +285,6 @@ const MyBookings = () => {
                     </div>
                 </div>
             )}
-
-
-
         </div>
     );
 };

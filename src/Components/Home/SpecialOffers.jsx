@@ -50,7 +50,7 @@ const SpecialOffers = () => {
                     Check out our latest offers and save big on your next stay!
                 </motion.p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {offers.map((offer, index) => (
                     <motion.div
                         key={index}

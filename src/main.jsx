@@ -12,6 +12,7 @@ import Register from './Components/Register/Register'
 import RoomDetail from './Components/Home/RoomDetail'
 import RoomsPage from './Components/RoomsPage/RoomsPage'
 import MyBookings from './Components/MyBookings/MyBookings'
+import AboutUs from './Components/AboutUs/AboutUs'
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,8 @@ const router = createBrowserRouter([
       { path: "login", element: <Login></Login> },
       { path: "register", element: <Register></Register> },
       { path: "room/:id", element: <RoomDetail></RoomDetail> },
+      { path: "aboutus", element: <AboutUs></AboutUs> },
+
       {
         path: "roomspage",
         element: <RoomsPage></RoomsPage>

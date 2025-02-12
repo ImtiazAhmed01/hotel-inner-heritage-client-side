@@ -4,7 +4,7 @@ import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../Provider/authProvider";
 import { Link, useNavigate } from "react-router-dom";
 import { Bounce, toast, ToastContainer } from "react-toastify";
-
+import Swal from 'sweetalert2';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 
 
@@ -18,18 +18,32 @@ const Login = () => {
     const emailref = useRef();
 
     const handleForgetPassword = () => {
-        console.log('get me email address')
+        console.log('get me email address');
         const email = emailref.current.value;
         if (!email) {
-            alert('Please give valid email address')
-        }
-        else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please provide a valid email address!',
+            });
+        } else {
             sendPasswordResetEmail(auth, email)
                 .then(() => {
-                    alert("Password Reset email sent, Please check your email")
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Password reset email sent. Please check your email.',
+                    });
                 })
+                .catch((error) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: `Failed to send password reset email: ${error.message}`,
+                    });
+                });
         }
-    }
+    };
     // const emailref=useRef()
 
     const handleGoogleSignIn = async () => {

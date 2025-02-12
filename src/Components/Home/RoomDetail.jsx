@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Provider/authProvider';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import Swal from 'sweetalert2';
 import img from '../../../src/assets/images/homeImg/145857007_307ce493-b254-4b2d-8ba4-d12c080d6651.jpg';
 
 const RoomDetail = () => {
@@ -33,20 +34,44 @@ const RoomDetail = () => {
 
     const handleBooking = () => {
         if (!user) {
-            alert('You need to be logged in to book a room.');
+            Swal.fire({
+                title: 'You need to be logged in to book a room.',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                didOpen: () => {
+                    document.querySelector('.swal2-popup').style.zIndex = 9999;
+                }
+            });
             navigate('/login');
             return;
         }
 
         if (!room.availability) {
-            alert('This room is currently unavailable.');
+            Swal.fire({
+                title: 'This room is currently unavailable.',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                didOpen: () => {
+                    document.querySelector('.swal2-popup').style.zIndex = 9999;
+                }
+            });
             return;
         }
 
         if (!checkInDate || !checkOutDate || !bookingDate) {
-            alert('Please select check-in, check-out, and single booking dates.');
+            Swal.fire({
+                title: 'Please select check-in, check-out, and single booking dates.',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                didOpen: () => {
+                    document.querySelector('.swal2-popup').style.zIndex = 9999;
+                }
+            });
             return;
         }
+
+        // Close the modal before showing SweetAlert
+        document.getElementById('my_modal_5').close();
 
         fetch(`https://hotel-inner-heritage-server.vercel.app/rooms/${id}/book`, {
             method: 'POST',
@@ -55,18 +80,41 @@ const RoomDetail = () => {
                 checkInDate: checkInDate.toISOString().split('T')[0],
                 checkOutDate: checkOutDate.toISOString().split('T')[0],
                 bookingDate: bookingDate.toISOString().split('T')[0],
-                userId: user.id,  // Ensure the user object has the 'id' property
-                userEmail: user.email,  // Assuming 'user.email' holds the user's email
+                userId: user.id,
+                userEmail: user.email,
             }),
         })
             .then((res) => res.json())
             .then((data) => {
-                alert(data.message || 'Room booked successfully!');
-                setRoom((prev) => ({ ...prev, availability: false }));
-                document.getElementById('my_modal_5').close();
+                // Check if the booking was successful
+                if (data.availability === true) {
+                    Swal.fire({
+                        title: 'Room booked successfully!',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        didOpen: () => {
+                            document.querySelector('.swal2-popup').style.zIndex = 9999;
+                        }
+                    });
+                    setRoom((prev) => ({ ...prev, availability: false }));
+                } else {
+                    Swal.fire({
+                        title: data.message || 'Booking failed!',
+                        confirmButtonText: 'OK',
+                        didOpen: () => {
+                            document.querySelector('.swal2-popup').style.zIndex = 9999;
+                        }
+                    });
+                }
             })
-            .catch((error) => console.error('Error booking room:', error));
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
     };
+
+
+
 
 
     if (!room) return <p>Loading...</p>;

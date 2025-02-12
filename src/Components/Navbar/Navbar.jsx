@@ -64,7 +64,7 @@ const Navbar = () => {
     );
 
     return (
-        <div className="sticky top-0 z-50 shadow-md bg-[#e5e4e2]">
+        <div className="sticky top-0 z-50 shadow-md bg-[#BC6C25]/40">
             {user && user.displayName && (
                 <div className="bg-[#FEFAE0] text-center py-2">
                     <span className="text-sm font-medium text-[#333533]">
@@ -110,7 +110,7 @@ const Navbar = () => {
                     )}
                     {user ? (
                         <div><button onClick={toggleTheme} className="btn btn-outline px-3 py-1">
-                            {theme === "light" ? "🌙 Dark" : "☀️ Light"}
+                            {theme === "light" ? "🌙 " : "☀️ "}
                         </button>
 
                             <button
@@ -124,7 +124,7 @@ const Navbar = () => {
                     ) : (
                         <div className="flex gap-2">
                             <button onClick={toggleTheme} className="btn btn-outline px-3 py-1">
-                                {theme === "light" ? "🌙 Dark" : "☀️ Light"}
+                                {theme === "light" ? "🌙 " : "☀️ "}
                             </button>
                             <NavLink to="/register" className="btn btn-outline border-[#BC6C25] text-[#BC6C25] hover:bg-[#BC6C25] hover:text-white">
                                 Sign Up

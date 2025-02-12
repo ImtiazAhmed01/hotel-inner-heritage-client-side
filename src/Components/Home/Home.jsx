@@ -12,12 +12,12 @@ import UserReviews from "../UserReviews/UserReviews";
 import CulturalHeritageExperience from "./CulturalHeritageExperience";
 
 const Home = () => {
-    const [darkMode, setDarkMode] = useState(false);
+    // const [darkMode, setDarkMode] = useState(false);
     const navigate = useNavigate();
 
-    const toggleTheme = () => {
-        setDarkMode(!darkMode);
-    };
+    // const toggleTheme = () => {
+    //     setDarkMode(!darkMode);
+    // };
 
     const handleRedirect = () => {
         navigate("/roomspage");
@@ -31,9 +31,10 @@ const Home = () => {
     };
 
     return (
-        <div className={darkMode ? "bg-black text-white" : "bg-white text-black"}>
+        // <div className={darkMode ? "bg-black text-white" : "bg-white text-black"}>
+        <div>
             <div className="md:px-14 lg:px-32 py-4">
-                <div>
+                {/* <div>
                     <button
                         onClick={toggleTheme}
                         className={`px-4 py-2 rounded-md ${darkMode ? "bg-gray-200 text-black" : "bg-gray-800 text-white"
@@ -41,7 +42,7 @@ const Home = () => {
                     >
                         {darkMode ? "Light Mode" : "Dark Mode"}
                     </button>
-                </div>
+                </div> */}
 
                 {/* Slider Section */}
                 <div className="carousel w-full">
@@ -117,7 +118,8 @@ const Home = () => {
             </div>
 
             {/* Our Location */}
-            <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+            {/* <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}> */}
+            <div>
                 <h2 className="text-center text-2xl font-bold mb-4">Our Location</h2>
                 <div className="map-container mx-auto" style={{ height: "400px", width: "90%" }}>
                     <HotelMap />
@@ -125,23 +127,23 @@ const Home = () => {
             </div>
 
             {/* Featured Rooms */}
-            <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+            <div className={`mt-8 `}>
                 <FeaturedRooms />
             </div>
 
             {/* User Reviews */}
-            <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-[#DDA15E] text-black"}`}>
+            <div className={`mt-8 `}>
                 <UserReviews />
             </div>
 
             {/* Other Sections */}
-            <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+            <div className={`mt-8`}>
                 <LuxuryExpeiences />
             </div>
-            <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+            <div className={`mt-8`}>
                 <SpecialOffers />
             </div>
-            <div className={`mt-8 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+            <div className={`mt-8`}>
                 <CulturalHeritageExperience />
             </div>
         </div>

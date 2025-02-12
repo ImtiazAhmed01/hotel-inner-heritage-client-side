@@ -24,12 +24,12 @@ const UserReviews = () => {
                             <img className="w-24 h-24 rounded-full object-cover" src={img} alt="User" />
 
                             {/* Fixed height text area */}
-                            <p className="text-lg text-black pt-2 italic text-center h-16 overflow-hidden line-clamp-3">
+                            <p className="text-lg  pt-2 italic text-center h-16 overflow-hidden line-clamp-3">
                                 {review.reviewText}
                             </p>
 
                             <div className="mt-4 text-center">
-                                <strong className="text-[#3F0113]">{review.reviewer}</strong>
+                                <strong className="">{review.reviewer}</strong>
                                 <span className="block text-sm text-gray-500">
                                     {new Date(review.timestamp).toLocaleString()}
                                 </span>

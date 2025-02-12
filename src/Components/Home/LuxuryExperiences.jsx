@@ -41,7 +41,7 @@ const LuxuryExperiences = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5, duration: 1 }}
-                    className="text-lg text-[#333533]"
+                    className="text-lg"
                 >
                     Elevate your stay with our premium experiences.
                 </motion.p>

@@ -1,17 +1,36 @@
 import 'react-toastify/dist/ReactToastify.css';
 
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../Provider/authProvider";
 import { Link, useNavigate } from "react-router-dom";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
+
 
 
 const Login = () => {
+    const auth = getAuth()
     const { signInUser, signInWithGoogle } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const navigate = useNavigate();
+    const emailref = useRef();
+
+    const handleForgetPassword = () => {
+        console.log('get me email address')
+        const email = emailref.current.value;
+        if (!email) {
+            alert('Please give valid email address')
+        }
+        else {
+            sendPasswordResetEmail(auth, email)
+                .then(() => {
+                    alert("Password Reset email sent, Please check your email")
+                })
+        }
+    }
+    // const emailref=useRef()
 
     const handleGoogleSignIn = async () => {
         try {
@@ -90,6 +109,7 @@ const Login = () => {
                         <input
                             type="email"
                             placeholder="email"
+                            ref={emailref}
                             name="email"
                             className="input input-bordered"
                             onChange={(e) => setEmail(e.target.value)}
@@ -126,10 +146,10 @@ const Login = () => {
                                 />
                             </svg>
                         </div>
-                        <label className="label">
-                            <Link to={`/forgot-password?email=${email}`} className="label-text-alt link link-hover">
-                                Forgot password?
-                            </Link>
+                        <label className="label label-text-alt link link-hover"
+                            onClick={handleForgetPassword}>
+                            Forgot password?
+
                         </label>
                     </div>
 

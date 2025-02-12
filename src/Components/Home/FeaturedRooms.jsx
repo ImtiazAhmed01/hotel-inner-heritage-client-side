@@ -24,12 +24,12 @@ const FeaturedRooms = () => {
 
     return (
         <div className="featured-rooms">
-            <h1 className="font-bold text-2xl mb-4 text-center">Featured Rooms</h1>
+            <h1 className="font-bold text-2xl mb-4 text-center ">Featured Rooms</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:px-32 px-10">
                 {rooms.map(room => (
                     <div key={room._id} className="room-card bg-[#FEFAE0] p-4 shadow-md rounded-md">
                         <img src={room.image} alt={room.name} className="w-full h-48 object-cover rounded-md" />
-                        <h2 className="font-semibold text-lg mt-2">{room.name}</h2>
+                        <h2 className="font-semibold text-lg mt-2 text-[#3F0113]">{room.name}</h2>
                         <p className="text-gray-500">{room.description}</p>
                         <p className="text-green-600 font-bold">Price: ${room.price} / night</p>
                         <p className="text-yellow-500">Rating: ⭐ {room.rating}</p>

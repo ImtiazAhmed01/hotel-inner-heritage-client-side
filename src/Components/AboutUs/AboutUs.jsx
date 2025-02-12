@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 const AboutUs = () => {
     return (
-        <section className="bg-gray-100 py-12 px-6 md:px-16">
+        <section className=" py-12 px-6 md:px-16">
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}

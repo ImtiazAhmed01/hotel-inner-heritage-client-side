@@ -29,13 +29,13 @@ const CulturalHeritageExperience = () => {
                 className={`${fadeIn ? 'opacity-100' : 'opacity-0'} transition-opacity duration-1500`}
             >
                 <h2
-                    className={`text-4xl font-bold text-brown-700 ${fadeIn ? 'transform translate-y-0' : 'transform translate-y-5'}
+                    className={`text-4xl font-bold  ${fadeIn ? 'transform translate-y-0' : 'transform translate-y-5'}
                         transition-all duration-1500`}
                 >
                     Experience Our Cultural Heritage
                 </h2>
                 <p
-                    className={`text-lg text-brown-600 mt-5 mb-8 ${fadeIn ? 'transform translate-y-0' : 'transform translate-y-5'}
+                    className={`text-lg mt-5 mb-8 ${fadeIn ? 'transform translate-y-0' : 'transform translate-y-5'}
                         transition-all duration-2000`}
                 >
                     Discover the charm of our heritage with authentic local experiences.

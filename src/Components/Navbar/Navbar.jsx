@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../Provider/authProvider";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Navbar = () => {
     const { user, signOutUser } = useContext(AuthContext);
@@ -16,6 +17,17 @@ const Navbar = () => {
             alert("Failed to log out. Please try again.");
         }
     };
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+    useEffect(() => {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme(theme === "light" ? "dark" : "light");
+    };
+
 
     const links = (
         <>
@@ -92,17 +104,28 @@ const Navbar = () => {
                             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-sm bg-black bg-opacity-75 py-1 px-2 rounded-lg text-[#FEFAE0] opacity-0 group-hover:opacity-100 transition-opacity">
                                 {user.displayName}
                             </div>
+
                         </div>
+
                     )}
                     {user ? (
-                        <button
-                            className="btn bg-[#DDA15E] text-[#3F0113] border-none hover:bg-[#BC6C25]"
-                            onClick={handleLogout}
-                        >
-                            Log Out
+                        <div><button onClick={toggleTheme} className="btn btn-outline px-3 py-1">
+                            {theme === "light" ? "🌙 Dark" : "☀️ Light"}
                         </button>
+
+                            <button
+                                className="btn bg-[#DDA15E] text-[#3F0113] border-none hover:bg-[#BC6C25]"
+                                onClick={handleLogout}
+                            >
+                                Log Out
+                            </button>
+                        </div>
+
                     ) : (
                         <div className="flex gap-2">
+                            <button onClick={toggleTheme} className="btn btn-outline px-3 py-1">
+                                {theme === "light" ? "🌙 Dark" : "☀️ Light"}
+                            </button>
                             <NavLink to="/register" className="btn btn-outline border-[#BC6C25] text-[#BC6C25] hover:bg-[#BC6C25] hover:text-white">
                                 Sign Up
                             </NavLink>

@@ -67,6 +67,45 @@ const Login = () => {
         }
     };
 
+    // const handleLogin = async (e) => {
+    //     e.preventDefault();
+    //     const email = e.target.email.value;
+    //     const password = e.target.password.value;
+
+    //     if (!email || !password) {
+    //         toast.error('Please enter both email and password.', {
+    //             position: "top-center",
+    //             autoClose: 5000,
+    //             theme: "light",
+    //             transition: Bounce,
+    //         });
+    //         return;
+    //     }
+
+    //     try {
+    //         const userCredential = await signInUser(email, password);
+    //         const user = userCredential.user;
+
+    //         if (user) {
+    //             navigate('/');
+    //             toast.success('Login successful!', {
+    //                 position: "top-center",
+    //                 autoClose: 5000,
+    //                 theme: "light",
+    //                 transition: Bounce,
+    //             });
+    //         }
+    //     } catch (error) {
+    //         console.error("Login failed:", error.message);
+    //         toast.error('Invalid email or password. Please try again.', {
+    //             position: "top-center",
+    //             autoClose: 5000,
+    //             theme: "light",
+    //             transition: Bounce,
+    //         });
+    //     }
+    // };
+
     const handleLogin = async (e) => {
         e.preventDefault();
         const email = e.target.email.value;
@@ -85,6 +124,12 @@ const Login = () => {
         try {
             const userCredential = await signInUser(email, password);
             const user = userCredential.user;
+
+            const token = await user.getIdToken();
+            console.log("JWT Token:", token);  // Make sure this shows the token value
+            localStorage.setItem("access-token", token);  // Store it in localStorage
+            console.log("Token saved in localStorage:", localStorage.getItem("access-token"));  // Verify if the token is set
+
 
             if (user) {
                 navigate('/');
@@ -105,6 +150,7 @@ const Login = () => {
             });
         }
     };
+
 
     const togglePasswordVisibility = () => {
         setShowPassword((prevState) => !prevState);

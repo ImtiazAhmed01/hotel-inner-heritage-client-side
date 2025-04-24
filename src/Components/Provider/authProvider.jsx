@@ -18,14 +18,16 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const googleProvider = new GoogleAuthProvider();
 
-    const getToken = async (email) => {
-        try {
-            const response = await axios.post("https://your-backend.com/jwt", { email });
-            localStorage.setItem("access-token", response.data.token);
-        } catch (error) {
-            console.error("Error getting JWT token:", error.message);
+    const getToken = () => {
+        const token = localStorage.getItem("access-token");
+        console.log("Token retrieved from localStorage:", token);  // Log the token
+        if (!token) {
+            console.error("No JWT token found in localStorage");
         }
+        return token;
     };
+
+
 
     const createUser = async (email, password, userDetails) => {
         try {

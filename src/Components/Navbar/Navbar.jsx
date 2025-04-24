@@ -83,7 +83,26 @@ const Navbar = () => {
                         </button>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-[#FEFAE0] rounded-box">
                             {links}
+                            {user ? (
+                                <button
+                                    className="btn bg-[#DDA15E] text-[#3F0113] border-none hover:bg-[#BC6C25]"
+                                    onClick={handleLogout}
+                                >
+                                    Log Out
+                                </button>
+                            ) : (
+                                <div className="">
+
+                                    <NavLink to="/register" className="btn btn-outline border-[#BC6C25] text-[#BC6C25] hover:bg-[#BC6C25] hover:text-white">
+                                        Sign Up
+                                    </NavLink>
+                                    <NavLink to="/login" className="btn btn-outline border-[#BC6C25] text-[#BC6C25] hover:bg-[#BC6C25] hover:text-white">
+                                        Log In
+                                    </NavLink>
+                                </div>
+                            )}
                         </ul>
+
                     </div>
 
                     <NavLink to="/" className="text-2xl font-bold text-[#3F0113]">
@@ -109,16 +128,18 @@ const Navbar = () => {
 
                     )}
                     {user ? (
-                        <div><button onClick={toggleTheme} className="btn btn-outline px-3 py-1">
-                            {theme === "light" ? "🌙 " : "☀️ "}
-                        </button>
-
+                        <div>
+                            <button onClick={toggleTheme} className="btn btn-outline px-3 py-1">
+                                {theme === "light" ? "🌙 " : "☀️ "}
+                            </button>
                             <button
-                                className="btn bg-[#DDA15E] text-[#3F0113] border-none hover:bg-[#BC6C25]"
+                                className="hidden md:inline-flex ml-2 btn bg-[#DDA15E] text-[#3F0113] border-none hover:bg-[#BC6C25]"
                                 onClick={handleLogout}
                             >
                                 Log Out
                             </button>
+
+
                         </div>
 
                     ) : (
@@ -126,12 +147,13 @@ const Navbar = () => {
                             <button onClick={toggleTheme} className="btn btn-outline px-3 py-1">
                                 {theme === "light" ? "🌙 " : "☀️ "}
                             </button>
-                            <NavLink to="/register" className="btn btn-outline border-[#BC6C25] text-[#BC6C25] hover:bg-[#BC6C25] hover:text-white">
+                            <NavLink to="/register" className="hidden md:inline-flex btn btn-outline border-[#BC6C25] text-[#BC6C25] hover:bg-[#BC6C25] hover:text-white">
                                 Sign Up
                             </NavLink>
-                            <NavLink to="/login" className="btn btn-outline border-[#BC6C25] text-[#BC6C25] hover:bg-[#BC6C25] hover:text-white">
+                            <NavLink to="/login" className="hidden md:inline-flex btn btn-outline border-[#BC6C25] text-[#BC6C25] hover:bg-[#BC6C25] hover:text-white">
                                 Log In
                             </NavLink>
+
                         </div>
                     )}
                 </div>

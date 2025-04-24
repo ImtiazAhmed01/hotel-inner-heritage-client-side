@@ -18,6 +18,7 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const googleProvider = new GoogleAuthProvider();
 
+    // this is for jwt token to be accessed
     const getToken = () => {
         const token = localStorage.getItem("access-token");
         console.log("Token retrieved from localStorage:", token);  // Log the token

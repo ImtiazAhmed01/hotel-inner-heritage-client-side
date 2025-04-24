@@ -154,6 +154,7 @@ const Navbar = () => {
                                 Log In
                             </NavLink>
 
+
                         </div>
                     )}
                 </div>

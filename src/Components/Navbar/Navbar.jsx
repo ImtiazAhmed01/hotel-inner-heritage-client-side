@@ -144,7 +144,15 @@ const Navbar = () => {
 
                     ) : (
                         <div className="flex gap-2">
-
+                            <button onClick={toggleTheme} className="btn btn-outline px-3 py-1">
+                                {theme === "light" ? "🌙 " : "☀️ "}
+                            </button>
+                            <NavLink to="/register" className="hidden md:inline-flex btn btn-outline border-[#BC6C25] text-[#BC6C25] hover:bg-[#BC6C25] hover:text-white">
+                                Sign Up
+                            </NavLink>
+                            <NavLink to="/login" className="hidden md:inline-flex btn btn-outline border-[#BC6C25] text-[#BC6C25] hover:bg-[#BC6C25] hover:text-white">
+                                Log In
+                            </NavLink>
 
                         </div>
                     )}

@@ -10,7 +10,7 @@ const AllReview = () => {
 
         const fetchReviews = async () => {
             try {
-                const response = await fetch(`https://hotel-inner-heritage-server.vercel.app/review?userEmail=${user.email}`);
+                const response = await fetch(`http://localhost:5000/review?userEmail=${user.email}`);
                 const data = await response.json();
                 setReviews(data);
             } catch (error) {

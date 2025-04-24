@@ -9,6 +9,7 @@ import {
     signOut,
     updateProfile
 } from "firebase/auth";
+import axios from "axios";
 
 export const AuthContext = createContext();
 
@@ -17,13 +18,18 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const googleProvider = new GoogleAuthProvider();
 
+    const getToken = async (email) => {
+        try {
+            const response = await axios.post("https://your-backend.com/jwt", { email });
+            localStorage.setItem("access-token", response.data.token);
+        } catch (error) {
+            console.error("Error getting JWT token:", error.message);
+        }
+    };
+
     const createUser = async (email, password, userDetails) => {
         try {
-            const userCredential = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const newUser = userCredential.user;
 
             await updateProfile(newUser, {
@@ -39,6 +45,7 @@ const AuthProvider = ({ children }) => {
 
             setUser(updatedUser);
             localStorage.setItem("userProfile", JSON.stringify(updatedUser));
+            await getToken(email); // ← Use JWT after registration
             return newUser;
         } catch (error) {
             console.error("Error creating user:", error.message);
@@ -74,6 +81,7 @@ const AuthProvider = ({ children }) => {
             await signOut(auth);
             setUser(null);
             localStorage.removeItem("userProfile");
+            localStorage.removeItem("access-token");
         } catch (error) {
             console.error("Sign-out error:", error.message);
         }
@@ -85,6 +93,7 @@ const AuthProvider = ({ children }) => {
             const user = result.user;
             setUser(user);
             localStorage.setItem("userProfile", JSON.stringify(user));
+            await getToken(user.email); // ← Use JWT after Google sign in
             return user;
         } catch (error) {
             console.error("Google Sign-In error:", error.message);
@@ -93,7 +102,15 @@ const AuthProvider = ({ children }) => {
     };
 
     const signInUser = async (email, password) => {
-        return await signInWithEmailAndPassword(auth, email, password);
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const loggedInUser = userCredential.user;
+            await getToken(email); // ← Use JWT after login
+            return loggedInUser;
+        } catch (error) {
+            console.error("Login error:", error.message);
+            throw error;
+        }
     };
 
     useEffect(() => {
@@ -120,6 +137,7 @@ const AuthProvider = ({ children }) => {
                 signOutUser,
                 signInWithGoogle,
                 updateUserProfile,
+                getToken,
             }}
         >
             {!loading && children}

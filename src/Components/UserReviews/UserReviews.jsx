@@ -5,7 +5,7 @@ const UserReviews = () => {
     const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
-        fetch("https://hotel-inner-heritage-server.vercel.app/reviews")
+        fetch("http://localhost:5000/reviews")
             .then((res) => res.json())
             .then((data) => setReviews(data))
             .catch((error) => console.error("Error fetching reviews:", error));
@@ -73,7 +73,7 @@ export default UserReviews;
 //         console.log("Review data being sent:", reviewData); // Debugging
 
 //         // Send review to the backend
-//         const response = await fetch('https://hotel-inner-heritage-server.vercel.app/reviews', {
+//         const response = await fetch('http://localhost:5000/reviews', {
 //             method: 'POST',
 //             headers: { 'Content-Type': 'application/json' },
 //             body: JSON.stringify(reviewData),

@@ -6,7 +6,7 @@ const FeaturedRooms = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('https://hotel-inner-heritage-server.vercel.app/featured-rooms') // Replace with your API URL
+        fetch('http://localhost:5000/featured-rooms') // Replace with your API URL
             .then(res => res.json())
             .then(data => setRooms(data))
             .catch(error => console.error("Error fetching rooms:", error));

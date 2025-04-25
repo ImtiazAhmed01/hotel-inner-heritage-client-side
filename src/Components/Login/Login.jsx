@@ -112,12 +112,7 @@ const Login = () => {
         const password = e.target.password.value;
 
         if (!email || !password) {
-            toast.error('Please enter both email and password.', {
-                position: "top-center",
-                autoClose: 5000,
-                theme: "light",
-                transition: Bounce,
-            });
+            toast.error('Please enter both email and password.');
             return;
         }
 
@@ -125,31 +120,34 @@ const Login = () => {
             const userCredential = await signInUser(email, password);
             const user = userCredential.user;
 
-            const token = await user.getIdToken();
-            console.log("JWT Token:", token);  // Make sure this shows the token value
-            localStorage.setItem("access-token", token);  // Store it in localStorage
-            console.log("Token saved in localStorage:", localStorage.getItem("access-token"));  // Verify if the token is set
+            // Optional: get Firebase JWT
+            const firebaseToken = await user.getIdToken();
+            console.log("Firebase JWT:", firebaseToken);
 
-
-            if (user) {
-                navigate('/');
-                toast.success('Login successful!', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    theme: "light",
-                    transition: Bounce,
-                });
-            }
-        } catch (error) {
-            console.error("Login failed:", error.message);
-            toast.error('Invalid email or password. Please try again.', {
-                position: "top-center",
-                autoClose: 5000,
-                theme: "light",
-                transition: Bounce,
+            // ✅ Get your backend's JWT token
+            const res = await fetch("http://localhost:5000/jwt", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: user.email }),
             });
+            const data = await res.json();
+
+            // ✅ Store your backend's JWT
+            if (data.token) {
+                localStorage.setItem("access-token", data.token);
+                console.log("Backend JWT stored:", data.token);
+            } else {
+                throw new Error("Failed to receive token from backend");
+            }
+
+            navigate('/');
+            toast.success('Login successful!');
+        } catch (error) {
+            console.error("Login error:", error.message);
+            toast.error('Invalid email or password. Please try again.');
         }
     };
+
 
 
     const togglePasswordVisibility = () => {

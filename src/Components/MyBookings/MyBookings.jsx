@@ -25,7 +25,7 @@ const MyBookings = () => {
 
         try {
             const userEmail = user?.email;
-            const response = await fetch(`http://localhost:5000/user/bookings?userEmail=${userEmail}`);
+            const response = await fetch(`https://hotel-inner-heritage-server.vercel.app/user/bookings?userEmail=${userEmail}`);
             if (!response.ok) throw new Error("Failed to fetch bookings");
             const data = await response.json();
             setBookings(data);
@@ -38,7 +38,7 @@ const MyBookings = () => {
 
     const cancelBooking = async (id) => {
         try {
-            const response = await fetch(`http://localhost:5000/bookings/${id}`, { method: 'DELETE' });
+            const response = await fetch(`https://hotel-inner-heritage-server.vercel.app/bookings/${id}`, { method: 'DELETE' });
             if (!response.ok) throw new Error("Failed to cancel booking");
             setBookings(bookings.filter((booking) => booking._id !== id));
             toast.success("Booking cancelled successfully");
@@ -62,7 +62,7 @@ const MyBookings = () => {
 
     const updateBookingDate = async (id, newDate) => {
         try {
-            const response = await fetch(`http://localhost:5000/bookings/${id}`, {
+            const response = await fetch(`https://hotel-inner-heritage-server.vercel.app/bookings/${id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ newDate }),
@@ -114,7 +114,7 @@ const MyBookings = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:5000/reviews', {
+            const response = await fetch('https://hotel-inner-heritage-server.vercel.app/reviews', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

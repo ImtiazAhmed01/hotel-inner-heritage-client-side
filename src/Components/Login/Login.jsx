@@ -105,7 +105,6 @@ const Login = () => {
     //         });
     //     }
     // };
-
     const handleLogin = async (e) => {
         e.preventDefault();
         const email = e.target.email.value;
@@ -120,24 +119,23 @@ const Login = () => {
             const userCredential = await signInUser(email, password);
             const user = userCredential.user;
 
-            // Optional: get Firebase JWT
-            const firebaseToken = await user.getIdToken();
-            console.log("Firebase JWT:", firebaseToken);
-
-            // ✅ Get your backend's JWT token
+            // ✅ Get backend JWT
             const res = await fetch("http://localhost:5000/jwt", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify({ email: user.email }),
             });
+
             const data = await res.json();
 
-            // ✅ Store your backend's JWT
-            if (data.token) {
+            if (data?.token) {
+                // ✅ Save to localStorage
                 localStorage.setItem("access-token", data.token);
-                console.log("Backend JWT stored:", data.token);
+                console.log("JWT token saved:", data.token);
             } else {
-                throw new Error("Failed to receive token from backend");
+                console.error("JWT token not received");
             }
 
             navigate('/');
@@ -147,6 +145,7 @@ const Login = () => {
             toast.error('Invalid email or password. Please try again.');
         }
     };
+
 
 
 

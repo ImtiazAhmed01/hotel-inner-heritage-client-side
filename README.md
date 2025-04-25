@@ -1,4 +1,4 @@
-![Hotel-Inner-Heritage Screenshot](https://i.ibb.co.com/TDWhmdKt/Screenshot-44.png)
+![Hotel-Inner-Heritage Screenshot](https://i.ibb.co.com/NgdDMgny/Screenshot-2025-04-25-232654.jpg)
 
 # Hotel Inner Heritage 
 
@@ -64,7 +64,7 @@ Hotel Inner Heritage is a web application that showcases a luxurious heritage ho
 
 ## ⚙️ Technologies Used
 
-- **Frontend:** React, Vite, Tailwind CSS, daisyUI
+- **Frontend:** React, Vite, Tailwind CSS, daisyUI, Axios
 - **Backend & Database:** Firebase (Authentication, Firestore, Hosting)
 - **State Management:** React Context API
 - **UI Enhancements:** react-toastify, sweetalert2, react-tooltip
@@ -91,6 +91,9 @@ Ensure you have the following installed:
    ```
    ```sh
    npm i react-toastify
+   ```
+    ```sh
+   npm i axios
    ```
 
    ```sh

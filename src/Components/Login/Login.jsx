@@ -120,7 +120,7 @@ const Login = () => {
             const user = userCredential.user;
 
             // ✅ Get backend JWT
-            const res = await fetch("http://localhost:5000/jwt", {
+            const res = await fetch("https://hotel-inner-heritage-server.vercel.app/jwt", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

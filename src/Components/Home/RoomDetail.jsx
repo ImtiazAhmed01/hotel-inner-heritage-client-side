@@ -19,14 +19,14 @@ const RoomDetail = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/rooms/${id}`)
+        fetch(`https://hotel-inner-heritage-server.vercel.app/rooms/${id}`)
             .then((res) => res.json())
             .then((data) => setRoom(data))
             .catch((error) => console.error('Error fetching room details:', error));
     }, [id]);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/reviews?roomId=${id}`)
+        fetch(`https://hotel-inner-heritage-server.vercel.app/reviews?roomId=${id}`)
             .then((res) => res.json())
             .then((data) => setReviews(data))
             .catch((error) => console.error('Error fetching reviews:', error));
@@ -73,7 +73,7 @@ const RoomDetail = () => {
         // Close the modal before showing SweetAlert
         document.getElementById('my_modal_5').close();
 
-        fetch(`http://localhost:5000/rooms/${id}/book`, {
+        fetch(`https://hotel-inner-heritage-server.vercel.app/rooms/${id}/book`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

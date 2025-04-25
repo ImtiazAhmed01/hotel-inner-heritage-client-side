@@ -105,19 +105,13 @@ const Login = () => {
     //         });
     //     }
     // };
-
     const handleLogin = async (e) => {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
 
         if (!email || !password) {
-            toast.error('Please enter both email and password.', {
-                position: "top-center",
-                autoClose: 5000,
-                theme: "light",
-                transition: Bounce,
-            });
+            toast.error('Please enter both email and password.');
             return;
         }
 
@@ -125,31 +119,34 @@ const Login = () => {
             const userCredential = await signInUser(email, password);
             const user = userCredential.user;
 
-            const token = await user.getIdToken();
-            console.log("JWT Token:", token);  // Make sure this shows the token value
-            localStorage.setItem("access-token", token);  // Store it in localStorage
-            console.log("Token saved in localStorage:", localStorage.getItem("access-token"));  // Verify if the token is set
-
-
-            if (user) {
-                navigate('/');
-                toast.success('Login successful!', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    theme: "light",
-                    transition: Bounce,
-                });
-            }
-        } catch (error) {
-            console.error("Login failed:", error.message);
-            toast.error('Invalid email or password. Please try again.', {
-                position: "top-center",
-                autoClose: 5000,
-                theme: "light",
-                transition: Bounce,
+            // ✅ Get backend JWT
+            const res = await fetch("http://localhost:5000/jwt", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email: user.email }),
             });
+
+            const data = await res.json();
+
+            if (data?.token) {
+                // ✅ Save to localStorage
+                localStorage.setItem("access-token", data.token);
+                console.log("JWT token saved:", data.token);
+            } else {
+                console.error("JWT token not received");
+            }
+
+            navigate('/');
+            toast.success('Login successful!');
+        } catch (error) {
+            console.error("Login error:", error.message);
+            toast.error('Invalid email or password. Please try again.');
         }
     };
+
+
 
 
     const togglePasswordVisibility = () => {

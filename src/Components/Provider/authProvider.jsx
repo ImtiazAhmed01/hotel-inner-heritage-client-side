@@ -21,12 +21,10 @@ const AuthProvider = ({ children }) => {
     // this is for jwt token to be accessed
     const getToken = () => {
         const token = localStorage.getItem("access-token");
-        console.log("Token retrieved from localStorage:", token);  // Log the token
-        if (!token) {
-            console.error("No JWT token found in localStorage");
-        }
+        console.log("Token retrieved from localStorage:", token);
         return token;
     };
+
 
 
 
@@ -108,7 +106,7 @@ const AuthProvider = ({ children }) => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const loggedInUser = userCredential.user;
-            await getToken(email); // ← Use JWT after login
+            getToken(email); // ← Use JWT after login
             return loggedInUser;
         } catch (error) {
             console.error("Login error:", error.message);
